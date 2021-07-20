@@ -1,0 +1,188 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].MSSV }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'maSV')">
+      <input nz-input formControlName="maSV" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'maSV')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+      <app-field-error-display [displayError]="isFieldValid(form, 'maSV', 'min')"
+        [errorMsg]="langData[langCode].MSSV_PHAI_LON_HON_0">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].HO_TEN }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'hoTen')">
+      <input nz-input formControlName="hoTen" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'hoTen')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].CMND }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'cmnd')">
+      <input nz-input formControlName="cmnd" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'cmnd')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+  <div nz-row class="pad-bot-form align-items-center">
+    <div nz-col nzSpan="7">
+      <label>{{ langData[langCode].NGAY_SINH }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="17" [ngClass]="displayFieldCss(form, 'ngaySinh')">
+      <nz-date-picker nzAllowClear nzFormat="dd/MM/yyyy" formControlName="ngaySinh" class="d-block">
+      </nz-date-picker>
+    </div>
+    <div nz-col>
+      <app-field-error-display [displayError]="isFieldValid(form, 'ngaySinh')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form" *ngIf="!isEdit">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].MAT_KHAU }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24">
+      <nz-input-group [nzPrefix]="passIcon" [nzSuffix]="showPassButtonLogin"
+        [ngClass]="displayFieldCss(form, 'password')">
+        <input [attr.type]="showPassWord ? 'text' : 'password'" class="nz-form-input" nz-input required
+          formControlName="password" [attr.placeholder]="langData[langCode].MAT_KHAU" nzSize="large"
+          (change)="matchPassword()" />
+        <ng-template #passIcon>
+          <i class="fas fa-lock prefix-icon"></i>
+        </ng-template>
+        <ng-template #showPassButtonLogin>
+          <i (click)="toggleShowPassLogin('showPassWord')" class="fas fa-eye append-icon"
+            [ngClass]="showPassWord ? 'fas fa-eye-slash append-icon' : 'fas fa-eye append-icon'"></i>
+        </ng-template>
+      </nz-input-group>
+      <ng-container *ngIf="isFieldValid(form, 'password')">
+        <small *ngIf="form.get('password').errors.required" class="text-red">
+          {{ langData[langCode].KHONG_DUOC_DE_TRONG}} <br />
+        </small>
+      </ng-container>
+    </div>
+  </div>
+
+
+  <div nz-row class="pad-bot-form" *ngIf="!isEdit">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].NHAP_LAI_MAT_KHAU }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24">
+      <nz-input-group [nzPrefix]="passIcon" [nzSuffix]="showPassButtonConfirmPassword"
+        [ngClass]="displayFieldCss(form, 'passwordConfirm')">
+        <input [attr.type]="showPassWordConfirm ? 'text' : 'password'" class="nz-form-input" nz-input required
+          formControlName="passwordConfirm" [attr.placeholder]="langData[langCode].NHAP_LAI_MAT_KHAU" nzSize="large" />
+        <ng-template #passIcon>
+          <i class="fas fa-lock prefix-icon"></i>
+        </ng-template>
+        <ng-template #showPassButtonConfirmPassword>
+          <i (click)="toggleShowPassLogin('showPassWordConfirm')" class="fas fa-eye append-icon"
+            [ngClass]="showPassWordConfirm ? 'fas fa-eye-slash append-icon' : 'fas fa-eye append-icon'"></i>
+        </ng-template>
+      </nz-input-group>
+
+      <ng-container *ngIf="isFieldValid(form, 'passwordConfirm')">
+        <small *ngIf="form.get('passwordConfirm').hasError('required')" class="text-red">
+          {{ langData[langCode].KHONG_DUOC_DE_TRONG}} <br />
+        </small>
+      </ng-container>
+      <small *ngIf="!isMatch" class="text-red">
+        {{ langData[langCode].MAT_KHAU_KHONG_TRUNG_KHOP}}
+      </small>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'gioiTinh')" class="space-flex">
+      <div nz-col nzSpan="4">
+        <label>{{ langData[langCode].GIOI_TINH }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="20">
+        <nz-radio-group formControlName="gioiTinh" class="display-between">
+          <label nz-radio [nzValue]="true">{{ langData[langCode].NU }}</label>
+          <label nz-radio [nzValue]="false">{{ langData[langCode].NAM }}</label>
+        </nz-radio-group>
+      </div>
+    </div>
+    <div nz-col>
+      <app-field-error-display [displayError]="isFieldValid(form, 'gioiTinh')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+
+
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="14">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].NGANH }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'nganh')">
+        <nz-select class="w-100" nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_NGANH"
+          (nzOnSearch)="searchNganhChange.next($event)" formControlName="nganh">
+          <nz-option *ngFor="let nganh of listNganh" [nzLabel]="nganh.tenNganh" [nzValue]="nganh.id">
+          </nz-option>
+        </nz-select>
+        <app-field-error-display [displayError]="isFieldValid(form, 'nganh')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+    <div nz-col nzSpan="10">
+      <div nz-col nzOffset="4" nzSpan="24">
+        <label>{{ langData[langCode].LOP }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzOffset="4" nzSpan="24" [ngClass]="displayFieldCss(form, 'lop')">
+        <input nz-input formControlName="lop" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'lop')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].DIEN_THOAI }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dienThoai')">
+      <input nz-input formControlName="dienThoai" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'dienThoai')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()"><i
+            class="fas fa-times mr-right-5"></i>{{langData[langCode].HUY}}</button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()"><i
+            class="fas fa-save mr-right-5"></i>{{langData[langCode].LUU}}</button>
+      </div>
+    </div>
+  </div>
+</form>

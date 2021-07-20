@@ -1,0 +1,31 @@
+// Table mng
+.table-margin-bot {
+  margin-bottom: 10px !important;
+  .table-header{
+    font-weight: bold !important;
+  }
+}
+.table-border tr.ant-table-row > th,
+.table-border tr.ant-table-row > td {
+  border-left: solid 1px;
+}
+.table-border tr.ant-table-row > th:last-child,
+.table-border tr.ant-table-row > td:last-child {
+  border-right: solid 1px;
+}
+.table-cell-middle tr.ant-table-row > td {
+  padding: 6px !important;
+}
+
+tr.ant-table-row > th {
+  background: #e8e8e8 !important;
+  text-transform: uppercase;
+  font-weight: bold !important;
+}
+tr.ant-table-row > th, tr.ant-table-row > td {
+  border-color: #c4c4c4 !important;
+}
+// .ant-menu-inline-collapsed li i svg {
+//   font-size: 18px !important;
+// }
+// E: Table Mng

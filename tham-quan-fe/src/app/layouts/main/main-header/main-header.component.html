@@ -1,0 +1,70 @@
+<header id="sj-header" class="sj-header sj-haslayout">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="sj-navigationarea">
+          <strong class="sj-logo"><a href="../"><img src="assets/img/logo/ute_bdrp.png"></a></strong>
+          <div class="sj-rightarea">
+            <nav id="sj-nav" class="sj-nav navbar-expand-lg">
+              <div class="collapse navbar-collapse sj-navigation" id="navbarNav">
+                <ul>
+                  <!-- Account menu -->
+                  <li class="menu-item-has-children page_item_has_children">
+                    <ng-container *ngIf="isLogin">
+                      <button nz-button nzType="default" type="button" nzSize="large"
+                        class="account-btn menu-item-has-children page_item_has_children">
+                        <img [attr.src]="userAvatarLink" width="19px" height="19px" class="account-icon mr-right-5"
+                          onerror="this.src='assets/img/logo/ute_logo_c.png'">
+                        <span>{{userName}}</span>
+                      </button>
+                      <ul class="account sub-menu">
+                        <li *ngIf="isSinhVien">
+                          <a [routerLink]="[urlConst.ROUTE.MAIN.WORK_STUDENT]">
+                            <i class="fas fa-pen-nib mr-right-5"></i>{{ langData[langCode].CHUYEN_THAM_QUAN}}</a>
+                        </li>
+                        <li *ngIf="isGiangVien">
+                          <a [routerLink]="[urlConst.ROUTE.MAIN.WORK_LECTURE]">
+                            <i class="fas fa-briefcase mr-right-5"></i>{{ langData[langCode].CONG_VIEC}}</a>
+                        </li>
+                        <li *ngIf="isDoanhNghiep">
+                          <a [routerLink]="[urlConst.ROUTE.MAIN.WORK_BUSINESS]">
+                            <i class="fas fa-briefcase mr-right-5"></i>{{ langData[langCode].CONG_VIEC}}</a>
+                        </li>
+                        <li *ngIf="isCongTacVien">
+                          <a [routerLink]="[urlConst.ROUTE.MAIN.WORK_GUIDE]">
+                            <i class="fas fa-user-edit mr-right-5"></i>{{ langData[langCode].CONG_VIEC}}</a>
+                        </li>
+                        <li *ngIf="isAdmin">
+                          <a [routerLink]="[urlConst.ROUTE.MANAGEMENT.DASHBOARD]">
+                            <i class="fas fa-cog mr-right-5"></i>{{ langData[langCode].QUAN_TRI}}</a>
+                        </li>
+                        <li (click)="onLogOut()">
+                          <a href="javascript:void(0);">
+                            <i class="fas fa-power-off mr-right-5"></i>{{ langData[langCode].DANG_XUAT}}</a>
+                        </li>
+                      </ul>
+                    </ng-container>
+
+                    <!-- Login no open form -->
+                    <button *ngIf="!isLogin" nz-button nzType="primary" type="button" nzSize="large" class="account-btn"
+                      [routerLink]="['/login']">
+                      <i class="fas fa-user-circle account-icon"></i><span>{{ langData[langCode].DANG_NHAP}}</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button *ngIf="langCode === 'vi'" nz-button nzType="default" type="button" nzSize="large"
+                      class="language-btn lang-vi"
+                      (click)="switchLang('en')"><span>........</span><span>{{langCode}}</span></button>
+                    <button *ngIf="langCode === 'en'" nz-button nzType="default" type="button" nzSize="large"
+                      class="language-btn lang-en"
+                      (click)="switchLang('vi')"><span>........</span><span>{{langCode}}</span></button>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

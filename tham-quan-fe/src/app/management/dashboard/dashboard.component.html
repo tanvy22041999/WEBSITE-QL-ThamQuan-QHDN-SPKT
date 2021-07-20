@@ -1,0 +1,34 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <!-- <div nz-col nzSpan="12" class="text-right">
+    <button nz-button class="nz-btn-green"><i class="fas fa-plus mr-right-5"></i>Thêm mới</button>
+  </div> -->
+</div>
+<hr>
+
+<div nz-row *ngFor="let groupMenu of listMenu" class="pad-bot-20 ">
+  <ng-container *ngIf="groupMenu.isHaveChild">
+    <div nz-col nzSpan="24" class=" mr-top-10">
+      <label class="text-uppercase text-bold">{{groupMenu.title}}</label>
+    </div>
+    <div nz-col nzOffset="1" nzSpan="24">
+      <button *ngFor="let menu of groupMenu.listChild" class="mr-right-10 mr-top-10" nz-button nzType="primary"
+        type="button" [routerLink]="[menu.routerLink]">
+        <i [ngClass]="menu.icon + ' mr-right-5'"></i>{{menu.title}}
+      </button>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!groupMenu.isHaveChild">
+    <div nz-col nzSpan="24" class=" mr-top-10">
+      <label class="text-uppercase text-bold">{{groupMenu.title}}</label>
+    </div>
+    <div nz-col nzOffset="1" nzSpan="24">
+      <button nz-button nzType="primary" type="button" [routerLink]="[groupMenu.routerLink]" class="mr-top-10">
+        <i [ngClass]="groupMenu.icon + ' mr-right-5'"></i>{{groupMenu.title}}
+      </button>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,114 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="filterData.hoTen"
+        (keyup.enter)="searchValueTextChanged.next($any($event))" (keyup)="searchValueTextChanged.next($any($event))" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="searchValueTextChanged.next($any($event))"><i
+            class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+    <button nz-button class="nz-btn-green" (click)="openModal(formModal)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  </div>
+</div>
+<hr>
+
+<div nz-row>
+  <div nz-col nzOffset="4" nzSpan="8" class="d-flex align-items-center">
+    <div nz-col nzSpan="4">
+      <label>{{langData[langCode].KHOA}}:</label>
+    </div>
+    <div nz-col nzSpan="20">
+      <nz-select nzServerSearch nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_KHOA"
+        class="w-70 d-block" [(ngModel)]="selectedKhoa" (ngModelChange)="onChangeKhoa($event)"
+        (nzOnSearch)="searchKhoaValueChanged.next($event)">
+        <nz-option *ngFor="let khoa of listKhoa" [nzLabel]=" khoa.tenKhoa " [nzValue]="khoa.id"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+
+  <div nz-col nzSpan="8" class="d-flex align-items-center">
+    <div nz-col nzSpan="4">
+      <label>{{langData[langCode].NGANH}}:</label>
+    </div>
+    <div nz-col nzSpan="20">
+      <nz-select nzServerSearch nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_NGANH"
+        class="size-select-box w-70 d-block" [(ngModel)]="selectedNganh" (ngModelChange)="onChangeNganh($event)"
+        (nzOnSearch)="searchNganhValueChanged.next($event)">
+        <nz-option *ngFor="let nganh of listNganh" [nzLabel]=" nganh.tenNganh " [nzValue]="nganh.id"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+</div>
+<hr />
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listSinhVien.data" [nzScroll]="{x: '1200px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].MSSV}}</th>
+      <th nzAlign="center" nzWidth="150px">{{ langData[langCode].HO_TEN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].CMND}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].NGAY_SINH}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].NGANH}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].LOP}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].GIOI_TINH}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DIEN_THOAI}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].TRANG_THAI}}</th>
+      <th nzAlign="center" nzWidth="100px"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let sinhVien of listSinhVien.data; let i = index">
+      <td nzAlign="center">
+        {{ i + 1 + (listSinhVien.currentPage-1) * listSinhVien.limit}}
+      </td>
+
+      <td nzAlign="center">
+        {{ sinhVien.maSV }}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.hoTen}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.cmnd}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.ngaySinh | date: "dd/MM/yyyy"}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.nganh?.tenNganh}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.lop}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.gioiTinh ? langData[langCode].NU : langData[langCode].NAM}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.dienThoai}}
+      </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="success" class="pointer" *ngIf="sinhVien.trangThai" (click)="changeStatus(sinhVien.id)">
+          {{langData[langCode].KICH_HOAT}}</nz-tag>
+        <nz-tag nzColor="error" class="pointer" *ngIf="!sinhVien.trangThai" (click)="changeStatus(sinhVien.id)">
+          {{langData[langCode].KHONG_KICH_HOAT}}</nz-tag>
+      </td>
+      <td nzAlign="center">
+        <button nz-button nzType="primary" type="button" nzSize="small" (click)="openModal(formModal, sinhVien)"><i
+            class="fas fa-edit"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<app-table-paginate [pageConfig]="listSinhVien" (pageChange)="pageChange($event)"></app-table-paginate>
+
+<ng-template #formModal>
+  <app-form-student [modalData]="modalData" (closeModal)="closeModal($event)"></app-form-student>
+</ng-template>

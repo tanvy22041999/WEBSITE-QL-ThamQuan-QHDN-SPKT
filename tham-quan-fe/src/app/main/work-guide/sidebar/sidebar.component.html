@@ -1,0 +1,34 @@
+<aside id="sj-asidebar" class="sj-asidebar sj-widgetbox">
+  <div class="sj-widgetprofile">
+    <div class="sj-widgetcontent">
+      <figure>
+        <img class="avatar-size" [attr.src]="isLogin ? userAvatarLink : 'assets/img/logo/ute_logo_c.png'"
+          onerror="this.src='assets/img/logo/ute_logo_c.png'">
+      </figure>
+      <div class="sj-admininfo">
+        <h3>{{userName}}</h3>
+        <h4>{{langData[langCode].CONG_TAC_VIEN}}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="sj-widgetdashboard">
+    <nav id="sj-dashboardnav" class="sj-dashboardnav">
+      <ul class="no-padding">
+        <li [ngClass]="activatedLink === 'register-guide' ? 'active-menu': ''"><a href="javascript:void(0)"
+            [routerLink]="['/', 'work-guide', 'register-guide']"><i class="fab fa-readme"></i>
+            <span>{{langData[langCode].DANG_KY_THAM_QUAN}}</span></a>
+        </li>
+
+        <li [ngClass]="activatedLink === 'check-guide' ? 'active-menu': ''"><a href="javascript:void(0)"
+            [routerLink]="['/', 'work-guide', 'check-guide']"><i class="fab fa-readme"></i>
+            <span>{{langData[langCode].DIEM_DANH_THAM_QUAN}}</span></a>
+        </li>
+
+        <li [ngClass]="activatedLink === 'survey' ? 'active-menu': ''"><a href="javascript:void(0)"
+            [routerLink]="['/', 'work-guide', 'survey']"><i class="fab fa-readme"></i>
+            <span>{{langData[langCode].KHAO_SAT}}</span></a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>

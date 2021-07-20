@@ -1,0 +1,30 @@
+.avatar {
+  width: 35px;
+  height: 35px;
+  margin-top: -5px;
+  border: solid 1px white;
+  border-radius: 50%;
+}
+
+.lang-vi {
+  background-image: url('../../../../assets/img/lang/vi.svg');
+}
+.lang-en {
+  background-image: url('../../../../assets/img/lang/en.svg');
+}
+.language-btn {
+  margin-right: 10px;
+  background-size: 22px;
+  background-position: 5px 1.2px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  color: white;
+  border: none;
+}
+.language-btn span {
+  opacity: 0;
+}
+.language-btn span:last-child {
+  opacity: 1;
+  text-transform: uppercase;
+}

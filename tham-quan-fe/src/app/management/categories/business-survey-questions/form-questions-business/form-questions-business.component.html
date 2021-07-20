@@ -1,0 +1,116 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].STT}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thuTu')">
+      <input type="number" nz-input formControlName="thuTu">
+      <app-field-error-display [displayError]="isFieldValid(form, 'thuTu')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+      <app-field-error-display [displayError]="isFieldValid(form, 'thuTu', 'min')"
+        [errorMsg]="langData[langCode].KHONG_NHO_HON_1">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="16" class="mr-bot-10">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].CAU_HOI}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form,'cauHoi')">
+      <ckeditor *ngIf="isShowEditor" [editor]="editor" [config]="cfgEditor" formControlName="cauHoi"></ckeditor>
+      <span *ngIf="!isShowEditor">{{langData[langCode].VUI_LONG_CHO}}</span>
+      <app-field-error-display [displayError]="isFieldValid(form,'cauHoi')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="6">
+      <label>{{langData[langCode].LOAI_CAU_HOI}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="18" [ngClass]="displayFieldCss(form, 'loaiCauHoi')">
+      <nz-select class="w-100" nzShowSearch [nzPlaceHolder]="langData[langCode].CHON_LOAI_CAU_HOI" nzAllowClear="false"
+        formControlName="loaiCauHoi" (ngModelChange)="openQuestion($event)">
+        <nz-option *ngFor='let option of listLoaiCauHoi' [nzLabel]="option.key" [nzValue]='option.value'
+          #chonLoaiCauHoi>
+        </nz-option>
+      </nz-select>
+    </div>
+    <div nz-col nzOffset="6">
+      <app-field-error-display [displayError]="isFieldValid(form, 'loaiCauHoi')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+
+  <div nz-row [nzGutter]="16" class="mr-bot-10" *ngIf="isShowSoLuaChon">
+    <div nz-col nzSpan="6">
+      <label>{{langData[langCode].LUA_CHON_TOI_DA}}</label><label class="field-required">*</label>
+    </div>
+
+    <div nz-col nzSpan="18">
+      <input type="number" nz-input formControlName="luaChonToiDa">
+      <app-field-error-display [displayError]="isFieldValid(form, 'luaChonToiDa')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+      <app-field-error-display [displayError]="isFieldValid(form, 'luaChonToiDa', 'min')"
+        [errorMsg]="langData[langCode].KHONG_NHO_HON_1">
+      </app-field-error-display>
+
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="16" class="mr-bot-10">
+    <div nz-col nzSpan="24">
+      <label nz-checkbox formControlName="cauHoiBatBuoc">{{langData[langCode].CAU_HOI_BAT_BUOC}}</label>
+    </div>
+  </div>
+
+  <div nz-row [nzGutter]="16" class="mr-bot-10" *ngIf="isShowNhapLuaChon">
+    <div nz-col nzSpan="12">
+      <label>{{langData[langCode].DANH_SACH_LUA_CHON}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="12" class="text-right">
+      <button nz-button nzType="primary" type="button" nzSize="small" (click)="them()"><i
+          class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM_LUA_CHON}} </button>
+    </div>
+    <div nz-col nzSpan="24"
+      [ngClass]="listLuaChonTemp.length === 0 && form.get('danhSachLuaChon').touched ? 'has-error' : ''">
+      <nz-table #dataTable nzBordered [nzData]="listLuaChonTemp" nzShowPagination="false">
+        <thead>
+          <tr>
+            <th nzWidth="80%" nzAlign="center">{{langData[langCode].NOI_DUNG_LUA_CHON}}</th>
+            <th nzWidth="20%" nzAlign="center"><i class="fas fa-cog"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let luaChon of listLuaChonTemp; let i = index">
+            <td nzAlign="center">
+              <input nz-input type="text" class="w-100 " [(ngModel)]="luaChon.data"
+                [ngModelOptions]="{standalone: true}">
+            </td>
+            <td nzAlign="center"><i class="fas fa-trash text-red pointer" (click)="xoa(i)"></i></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()"><i
+            class="fas fa-times mr-right-5"></i>{{langData[langCode].HUY}}</button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()"><i
+            class="fas fa-save mr-right-5"></i>{{langData[langCode].LUU}}</button>
+      </div>
+    </div>
+  </div>
+</form>

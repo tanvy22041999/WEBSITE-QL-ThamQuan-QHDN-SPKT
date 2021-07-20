@@ -1,0 +1,32 @@
+<div class="row box-container">
+  <div class="col-4 col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <img class="w-100 post-img" [src]="safeResourceUrl" onerror="this.src='assets/img/bg/default-cover.jpg'" >
+  </div>
+  <div class="col-8 col-xs-8 col-sm-8 col-md-8 col-lg-8">
+    <div class="post-title">
+      <nz-tag class="text-uppercase" nzColor="red" *ngIf="postStatus.includes(listPostType.NEW)">
+        {{langData[langCode].BAI_VIET_MOI}}</nz-tag>
+      <nz-tag class="text-uppercase" nzColor="processing" *ngIf="postStatus.includes(listPostType.THONG_BAO)">
+        {{langData[langCode].THONG_BAO}}</nz-tag>
+    </div>
+    <div class="post-short-content hide-mobile pointer" [routerLink]="['/posts', postType]" [queryParams]="{id: postId}">
+      {{postTitle}}
+    </div>
+    <div class="post-footer">
+      <span class="pull-left mr-left-15">
+        <i class="fas fa-clock mr-right-5"></i>{{formattedPostTime | date: 'dd/MM/yyyy'}}
+      </span>
+      <span class="pull-right cta-read hide-mobile mr-right-15">
+        <span class="text-blue" [routerLink]="['/posts', postType]" [queryParams]="{id: postId}">{{langData[langCode].XEM_THEM}} &gt;</span>
+      </span>
+    </div>
+  </div>
+  <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 show-mobile">
+    <a [routerLink]="['/posts', postType]" [queryParams]="{id: postId}">
+      <div class="post-short-content">
+        {{postTitle}}
+      </div>
+    </a>
+  </div>
+</div>
+<br>

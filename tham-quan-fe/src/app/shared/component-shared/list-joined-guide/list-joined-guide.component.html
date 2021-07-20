@@ -1,0 +1,115 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+
+<hr>
+<div nz-row nzJustify="end" [hidden]="isUpdate">
+
+  <button nz-button class="nz-btn-green" (click)="openModal(formModal)">
+    <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+
+</div>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listCongTacVien" [nzScroll]="{x: '950px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="150px">{{ langData[langCode].HO_TEN}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].EMAIL}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].SDT}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].FILE_CHECK_IN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].FILE_CHECK_OUT}}</th>
+      <th nzAlign="center" nzWidth="100px"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let ctv of listCongTacVien; let i = index">
+      <td nzAlign="center">
+        {{ i +1}}
+      </td>
+      <td nzAlign="center">
+        {{ ctv.congTacVien.hoTen}}
+      </td>
+      <td nzAlign="center">
+        {{ ctv.congTacVien.email}}
+      </td>
+      <td nzAlign="center">
+        {{ ctv.congTacVien.sdt}}
+      </td>
+      <td nzAlign="center">
+        <div *ngIf="ctv.fileCheckIn" appGetImageView [idFile]="ctv.fileCheckIn"
+          (returnImageResourceUrl)="saveResourceBannerView(ctv.fileCheckIn, $event)">
+          <!-- (click)="openModalViewFile(viewFileOut, fileCheckIn)" -->
+          <a href="javascript:void(0)" (click)="openModalViewFile(viewFileOut, ctv.fileCheckIn)">
+            <span *ngIf="!objBannerView[ctv.fileCheckIn]"><i>{{langData[langCode].DANG_TAI}}</i></span>
+            <img class="w-100 preview-img" [attr.src]="objBannerView[ctv.fileCheckIn]"
+              onerror="this.src='assets/img/other/default-img.jpg'"></a>
+        </div>
+      </td>
+      <td nzAlign="center">
+        <div *ngIf="ctv.fileCheckOut" appGetImageView [idFile]="ctv.fileCheckOut"
+          (returnImageResourceUrl)="saveResourceBannerView( ctv.fileCheckOut, $event)">
+          <a href="javascript:void(0)" (click)="openModalViewFile(viewFileOut, ctv.fileCheckOut)">
+            <span *ngIf="!objBannerView[ ctv.fileCheckOut]"><i>{{langData[langCode].DANG_TAI}}</i></span>
+            <img class="w-100 preview-img" [attr.src]="objBannerView[ ctv.fileCheckOut]"
+              onerror="this.src='assets/img/other/default-img.jpg'"></a>
+        </div>
+      </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="blue" class="pointer" *ngIf="ctv.trangThai === null" nzMode="checkable"
+          (click)="changeStatus(ctv)">
+          {{langData[langCode].CHO_DUYET}}</nz-tag>
+        <div *ngIf="ctv.trangThai !== null">
+          <nz-tag nzColor="success" class="pointer" *ngIf="ctv.trangThai" (click)="changeStatus(ctv)">
+            {{langData[langCode].DA_DUYET}}</nz-tag>
+          <nz-tag nzColor="error" class="pointer" *ngIf="!ctv.trangThai" (click)="changeStatus(ctv)">
+            {{langData[langCode].KHONG_DUYET}}</nz-tag>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<ng-template #viewFileIn>
+  <app-view-file [fileId]="selectedFileIdForView" [viewer]="viewer" (hideIframe)="hideModalViewFile()"></app-view-file>
+</ng-template>
+
+<ng-template #viewFileOut>
+  <app-view-file [fileId]="selectedFileIdForView" [viewer]="viewer" (hideIframe)="hideModalViewFile()"></app-view-file>
+</ng-template>
+
+<ng-template #formModal>
+  <form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].CHON_CONG_TAC_VIEN}}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'congTacViens')">
+        <nz-select nzMode="multiple" class="w-100" nzShowSearch nzAllowClear
+          (nzOnSearch)="searchCongTacVienChange.next($event)" [nzPlaceHolder]="langData[langCode].CHON_CONG_TAC_VIEN"
+          formControlName="congTacViens">
+          <nz-option *ngFor="let option of listAllCtv" [nzLabel]="option.hoTen" [nzValue]="option.id">
+          </nz-option>
+        </nz-select>
+        <app-field-error-display [displayError]="isFieldValid(form, 'congTacViens')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-row class="ant-modal-footer fk-modal-footer">
+      <div nz-col nzSpan="24" class="ali-right">
+        <div class="pad-left-form-control" style="display: inline-block">
+          <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red"
+            (click)="closeModalThemCTV()">
+            <i class="fas fa-times mr-right-5"></i>{{ langData[langCode].HUY }}
+          </button>
+        </div>
+        <div class="pad-left-form-control" style="display: inline-block">
+          <button nz-button nzType="primary" nzSize="default" type="button" (click)="onUpdateListCTV()">
+            <i class="fas fa-save mr-right-5"></i>{{ langData[langCode].LUU }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

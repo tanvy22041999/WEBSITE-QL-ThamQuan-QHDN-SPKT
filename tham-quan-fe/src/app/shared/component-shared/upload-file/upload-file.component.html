@@ -1,0 +1,92 @@
+<div class="file-upload-container">
+  <div class="dropzone">
+    <!--[ngClass]="isDisable ? 'disable':''"-->
+    <div class="file">
+      <!-- Upload -->
+      <label class="file-label" *ngIf="!isDisableUpload && !isStartUpload">
+        <input class="file-input" type="file" [accept]="acceptFilesExtension"
+          (change)="uploadFile($any($event).target.files)" [multiple]="isUploadMultiFile">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fa fa-upload"></i>
+          </span>
+          <span class="file-label-sub">
+            {{langData[langCode].CHON_TEP}}{{ (listFiles && listFiles.length) > 0 ? langData[langCode].CHON_TEP_KHAC :
+            ''}}...</span>
+        </span>
+      </label>
+      <!-- Upload-ING -->
+      <label class="file-label" *ngIf="isStartUpload">
+        <span class="file-cta">
+          <span class="file-icon">
+            <img src="assets/img/other/uploading.svg" class="uploading-icon">
+          </span>
+          <span class="file-label-sub">
+            {{langData[langCode].DANG_TAI_LEN}}...
+          </span>
+          <span class="file-icon" (click)="onTerminateUploading()">
+            <i class="fas fa-times text-red mr-left-5"></i>
+          </span>
+        </span>
+      </label>
+      <!-- View -->
+      <label class="file-label mr-left-5" (click)="openModalViewFile(viewFile, listFiles[0]?.id)"
+        *ngIf="!isDisableView && listFiles?.length && !isUploadMultiFile && !isStartUpload">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fa fa-eye"></i>
+          </span>
+          <span class="file-label-sub">{{langData[langCode].XEM_TRUOC}}</span>
+        </span>
+      </label>
+
+      <!-- download -->
+      <label class="file-label mr-left-5" (click)="downloadFile(listFiles[0]?.id)"
+        *ngIf="isDisableView && isDownloadable && listFiles?.length && !isUploadMultiFile && !isStartUpload">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fa fa-download"></i>
+          </span>
+          <span class="file-label-sub">{{langData[langCode].TAI_VE}}</span>
+        </span>
+      </label>
+
+      <label class="file-label mar-lft" *ngIf="listFiles?.length && !isUploadMultiFile && isDisableUpload">
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fa fa-eye-slash"></i>
+          </span>
+          <span class="file-label-sub">{{langData[langCode].CHUA_CO_TEP_TIN}}</span>
+        </span>
+      </label>
+    </div>
+  </div>
+  <div class="list-file" *ngIf="listFiles && isUploadMultiFile">
+    <nz-table [nzScroll]="{x: '300px'}" nzShowPagination="false" nzSize="small" [nzBordered]="false"
+      [nzData]="listFiles" *ngIf="listFiles.length">
+      <tbody>
+        <tr *ngFor="let item of listFiles; let i = index" appGetFileInfo [idFile]="item.id"
+          (infoFile)="setFileName($event, item)">
+          <td class="icon-col" nzAlign="left">
+            <i class="fas fa-paperclip mr-right-5 pointer"
+              (click)="isDisableView ? null : openModalViewFile(viewFile, item.id)"></i>
+          </td>
+          <td nzAlign="left">
+            <div class="file-name"
+              (click)="isDisableView ? (isDownloadable ? downloadFile(item.id) : null) : openModalViewFile(viewFile, item.id)">
+              <a>{{ item.filename }}</a>
+            </div>
+          </td>
+          <td class="icon-col" nzAlign="right">
+            <i class="fas fa-eye text-blue mr-right-5 pointer"
+              (click)="isDisableView ? null : openModalViewFile(viewFile, item.id)"></i>
+            <i class="fas fa-times text-red pointer" (click)="onRemove(i)"></i>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+<ng-template #viewFile>
+  <app-view-file [fileId]="selectedFileIdForView" [viewer]="viewer" (hideIframe)="hideModalViewFile()"></app-view-file>
+</ng-template>

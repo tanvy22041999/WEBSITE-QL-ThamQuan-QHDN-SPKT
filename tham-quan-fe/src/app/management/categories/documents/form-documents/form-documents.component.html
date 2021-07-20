@@ -1,0 +1,44 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].TEN_BIEU_MAU}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenVanBanBieuMau')">
+      <input nz-input formControlName="tenVanBanBieuMau">
+      <app-field-error-display [displayError]="isFieldValid(form, 'tenVanBanBieuMau')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].FILE}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'fileVanBanBieuMau')">
+      <app-upload-file class="w-100" [isUploadMultiFile]="false" [acceptFilesExtension]="'.pdf'"
+        [subFolderOnServer]="'file-van-ban-bieu-mau'"
+        [listFilesPatch]="extractFileFromListId([form.get('fileVanBanBieuMau').value].flat())"
+        (returnedListId)="setIdFileToForm($event, 'fileVanBanBieuMau', form)">
+      </app-upload-file>
+      <app-field-error-display [displayError]="isFieldValid(form, 'fileVanBanBieuMau')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()"><i
+            class="fas fa-times mr-right-5"></i>{{langData[langCode].HUY}}</button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()"><i
+            class="fas fa-save mr-right-5"></i>{{langData[langCode].LUU}}</button>
+      </div>
+    </div>
+  </div>
+</form>

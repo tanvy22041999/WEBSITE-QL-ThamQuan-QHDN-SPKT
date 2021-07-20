@@ -1,0 +1,164 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+
+<hr>
+
+<div nz-row nzJustify="end" [hidden]="isUpdate">
+  <div nz-col class="mr-bot-10">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="searchValueTextChanged.next($any($event))" (keyup)="searchValueTextChanged.next($any($event))" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="searchValueTextChanged.next($any($event))"><i
+            class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+  </div>
+  <button nz-button class="nz-btn-green" (click)="openModal(formModal)">
+    <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  <button nz-button class="nz-btn-blue mr-left-5" *ngIf='checkTrangThai()' (click)="openModalDiemDanh(formDiemDanhBu)">
+    <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].DIEM_DANH_BU}}</button>
+  <button nz-button nzType="primary" class=" mr-left-5" nz-dropdown [nzDropdownMenu]="importMenu">
+    <i class="fas fa-file-import mr-right-5"></i>{{langData[langCode].NHAP_DANH_SACH}}</button>
+  <nz-dropdown-menu #importMenu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+      <li nz-menu-item (click)="clickUploadFileImportSinhVien()">
+        <i class="fas fa-file-import mr-right-5"></i>{{langData[langCode].NHAP_DANH_SACH}}
+      </li>
+      <li nz-menu-item (click)="clickUploadFileImportFileDiemDanh()" *ngIf='checkTrangThai()'>
+        <i class="fas fa-file-import mr-right-5"></i>{{langData[langCode].NHAP_DS_DIEM_DANH_BU}}
+      </li>
+      <li nz-menu-item (click)="downloadMauImportSinhVien()">
+        <i class="fas fa-file-download mr-right-5"></i>{{langData[langCode].TAI_MAU_IMPORT_SV}}
+      </li>
+      <li nz-menu-item (click)="downloadMauImportDiemDanh()">
+        <i class="fas fa-file-download mr-right-5"></i>{{langData[langCode].TAI_MAU_IMPORT_DIEM_DANH_SV}}
+      </li>
+
+    </ul>
+  </nz-dropdown-menu>
+</div>
+
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listSinhVien.data" [nzScroll]="{x: '950px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].MSSV}}</th>
+      <th nzAlign="center" nzWidth="150px">{{ langData[langCode].HO_TEN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DIEN_THOAI}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].DIEM_DANH}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].THOI_GIAN_DIEM_DANH}}</th>
+
+      <th nzAlign="center" nzWidth="100px"><i class="far fa-trash-alt"></i></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let sinhVien of listSinhVien.data; let i = index">
+      <td nzAlign="center">
+        {{ i + 1 + (listSinhVien.currentPage-1) * listSinhVien.limit}}
+      </td>
+
+      <td nzAlign="center">
+        {{ sinhVien.sinhVien.maSV }}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.sinhVien.hoTen}}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.sinhVien.dienThoai}}
+      </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="success" class="pointer" *ngIf="sinhVien.trangThai">
+          {{langData[langCode].DA_DIEM_DANH}}</nz-tag>
+        <nz-tag nzColor="error" class="pointer" *ngIf="!sinhVien.trangThai">
+          {{langData[langCode].CHUA_DIEM_DANH}}</nz-tag>
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien?.thoiGianDiemDanh | date :'HH:mm dd/MM/yyyy'}}
+      </td>
+      <td nzAlign="center">
+        <button nz-button nzType="default" type="button" nzSize="small" class="nz-btn-red"
+          (click)="onDeleteSinhVien(sinhVien.sinhVien.id)" [disabled]="isUpdate"><i
+            class="fas fa-trash-alt"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<app-table-paginate [pageConfig]="listSinhVien" (pageChange)="pageChange($event)"></app-table-paginate>
+<ng-template #formModal>
+  <form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].CHON_SINH_VIEN}}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'danhSachSinhViens')">
+        <nz-select nzMode="multiple" class="w-100" nzShowSearch nzAllowClear
+          (nzOnSearch)="searchSinhVienChange.next($event)" [nzPlaceHolder]="langData[langCode].CHON_SINH_VIEN"
+          formControlName="danhSachSinhViens">
+          <nz-option *ngFor="let option of listAllSinhVien" [nzLabel]="option.hoTen" [nzValue]="option.id">
+          </nz-option>
+        </nz-select>
+        <app-field-error-display [displayError]="isFieldValid(form, 'danhSachSinhViens')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-row class="ant-modal-footer fk-modal-footer">
+      <div nz-col nzSpan="24" class="ali-right">
+        <div class="pad-left-form-control" style="display: inline-block">
+          <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red"
+            (click)="closeModalThemSinhVien()">
+            <i class="fas fa-times mr-right-5"></i>{{ langData[langCode].HUY }}
+          </button>
+        </div>
+        <div class="pad-left-form-control" style="display: inline-block">
+          <button nz-button nzType="primary" nzSize="default" type="button" (click)="onUpdateListSinhVien()">
+            <i class="fas fa-save mr-right-5"></i>{{ langData[langCode].LUU }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<input #importDanhSachSinhVien type="file" accept=".xls,.xlsx" (change)="importSinhVien($any($event).target.files[0])"
+  hidden>
+
+<input #importDanhSachDiemDanh type="file" accept=".xls,.xlsx"
+  (change)="importDSDiemDanhBu($any($event).target.files[0])" hidden>
+
+<ng-template #formDiemDanhBu>
+  <form [formGroup]="formDiemDanh" (keydown.enter)="$event.preventDefault()">
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{langData[langCode].MSSV}}</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(formDiemDanh, 'mssv')">
+        <input nz-input formControlName="mssv">
+        <app-field-error-display [displayError]="isFieldValid(formDiemDanh, 'mssv')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{langData[langCode].SO_PHUT_DI_TRE}}</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(formDiemDanh, 'soPhut')">
+        <input nz-input formControlName="soPhut">
+        <app-field-error-display [displayError]="isFieldValid(formDiemDanh, 'soPhut')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+    <br>
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control mr-top-10 d-flex justify-content-end">
+        <button nz-button nzType="primary" type="button" nzSize="default" (click)="diemDanhBu()"><i
+            class="fas fa-edit mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+      </div>
+    </div>
+  </form>
+</ng-template>

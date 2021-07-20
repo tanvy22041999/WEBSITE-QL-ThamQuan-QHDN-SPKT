@@ -1,0 +1,98 @@
+*:not(i) {
+  font-family: "Raleway" !important;
+  font-weight: 600;
+}
+
+/* collapse mobile */
+.collapse {
+  display: unset;
+}
+
+.sj-navigation, .sj-navigation span {
+  font-size: 15px;
+}
+
+.account-btn {
+  /* width: 130px; Nếu có menu trên header thì phải limit width của btn */
+  margin-left: 10px;
+}
+.account-btn i {
+  margin-right: 5px;
+  margin-top: 5px;
+  font-size: 15px;
+}
+
+.lang-vi {
+  background-image: url('../../../../assets/img/lang/vi.svg');
+}
+.lang-en {
+  background-image: url('../../../../assets/img/lang/en.svg');
+}
+.language-btn {
+  margin-left: 10px;
+  background-size: 22px;
+  background-position: 5px 9px;
+  background-repeat: no-repeat;
+  padding: 6px;
+}
+.language-btn span {
+  opacity: 0;
+}
+.language-btn span:last-child {
+  opacity: 1;
+  text-transform: uppercase;
+}
+
+.account.sub-menu {
+  width: 160px;
+  padding: 0;
+}
+
+.sub-menu {
+  font-size: 14px;
+}
+
+.account-icon {
+  float: left;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  border-radius: 100%;
+}
+
+/* Mobile size width */
+@media only screen and (max-width: 450px) {
+  .sub-menu {
+    width: 150px !important;
+  }
+  .sub-menu.menu-mobile {
+    left: 0 !important;
+    width: 175px !important;
+  }
+}
+
+/*Cart*/
+::ng-deep .ant-popover-title {
+  color: #fff;
+  background-color: #2e3090;
+  text-transform: uppercase;
+}
+::ng-deep .ant-popover-arrow {
+  border-top-color: #2e3090 !important;
+  border-left-color: #2e3090 !important;
+}
+
+.nz-form-input {
+  height: 35px;
+  font-size: 15px
+}
+
+.prefix-icon {
+  margin-top: 10px;
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+.append-icon {
+  margin-top: 10px;
+  font-size: 16px;
+}

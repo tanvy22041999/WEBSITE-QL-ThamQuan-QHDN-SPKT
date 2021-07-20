@@ -1,0 +1,63 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].TEN_HOC_HAM_VN}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenHocHam')">
+      <input nz-input formControlName="tenHocHam">
+      <app-field-error-display [displayError]="isFieldValid(form, 'tenHocHam')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <!-- <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].TEN_HOC_HAM_EN}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenHocHamEn')">
+      <input nz-input formControlName="tenHocHamEn">
+      <app-field-error-display [displayError]="isFieldValid(form, 'tenHocHamEn')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div> -->
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].TEN_VIET_TAT_VN}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenVietTat')">
+      <input nz-input formControlName="tenVietTat">
+      <app-field-error-display [displayError]="isFieldValid(form, 'tenVietTat')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <!-- <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].TEN_VIET_TAT_EN}}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenVietTatEn')">
+      <input nz-input formControlName="tenVietTatEn">
+      <app-field-error-display [displayError]="isFieldValid(form, 'tenVietTatEn')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div> -->
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()"><i
+            class="fas fa-times mr-right-5"></i>{{langData[langCode].HUY}}</button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()"><i
+            class="fas fa-save mr-right-5"></i>{{langData[langCode].LUU}}</button>
+      </div>
+    </div>
+  </div>
+</form>

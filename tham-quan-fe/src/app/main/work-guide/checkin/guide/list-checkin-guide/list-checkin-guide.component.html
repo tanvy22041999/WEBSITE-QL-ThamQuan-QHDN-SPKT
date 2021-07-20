@@ -1,0 +1,126 @@
+<hr>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listChuyenThamQuan" [nzScroll]="{x: '1000px'}">
+
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].TEN_CHUYEN_THAM_QUAN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].THOI_GIAN_KHOI_HANH}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].FILE_CHECK_IN}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].VIEW_FILE}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].FILE_CHECK_OUT}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].VIEW_FILE}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DIEM_DANH_SINH_VIEN}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let chuyenThamQuan of listChuyenThamQuan; let i = index;">
+      <td nzAlign="center">
+        {{ i + 1 }}
+      </td>
+      <td nzAlign="center">
+        {{ chuyenThamQuan.tenChuyenThamQuan }}
+      </td>
+      <td nzAlign="center">
+        {{ chuyenThamQuan.thoiGianKhoiHanh | date: 'hh:mm dd/MM/yyyy' }}
+      </td>
+      <!-- Checkin -->
+      <td nzAlign="center">
+        <div *ngIf="!(fileCheck[i]?.fileCheckIn)">
+          <button nz-button nzType="dashed" nzDanger type="button" nzSize="small" class="mr-top-5"
+            (click)="openModalUploadFile(formUpload);chuyenThamQuanId=chuyenThamQuan.id;typeCheck='check-in'"><i
+              class="fas fa-upload mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+        </div>
+        <div *ngIf="(fileCheck[i]?.fileCheckIn)">
+          <button nz-button nzType="primary" type="button" nzSize="small" class="mr-top-5"
+            (click)="openModalUploadFile(formUpload);chuyenThamQuanId=chuyenThamQuan.id;typeCheck='check-in'"><i
+              class="fas fa-check mr-right-5"></i>{{langData[langCode].DA_DIEM_DANH}}</button>
+        </div>
+      </td>
+      <!-- Viewfile checkin -->
+      <td nzAlign="center">
+        <div *ngIf="(fileCheck[i]?.fileCheckIn)" appGetImageView [idFile]="fileCheck[i].fileCheckIn"
+          (returnImageResourceUrl)="saveResourceBannerView(fileCheck[i].fileCheckIn, $event)">
+          <a href="javascript:void(0)" (click)="openModalViewFile(viewFileIn, fileCheck[i].fileCheckIn)">
+            <span *ngIf="!objBannerView[fileCheck[i].fileCheckIn]"><i>{{langData[langCode].DANG_TAI}}</i></span>
+            <img class="w-100 preview-img" [attr.src]="objBannerView[fileCheck[i].fileCheckIn]"
+              onerror="this.src='assets/img/other/default-img.jpg'"></a>
+        </div>
+      </td>
+      <!-- Checkout -->
+      <td nzAlign="center">
+        <div *ngIf="!(fileCheck[i]?.fileCheckOut)">
+          <button nz-button nzType="dashed" nzDanger type="button" nzSize="small" class="mr-top-5"
+            (click)="openModalUploadFile(formUpload);chuyenThamQuanId=chuyenThamQuan.id;typeCheck='check-out'"><i
+              class="fas fa-upload mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+        </div>
+        <div *ngIf="(fileCheck[i]?.fileCheckOut)">
+          <button nz-button nzType="primary" type="button" nzSize="small" class="mr-top-5"
+            (click)="openModalUploadFile(formUpload);chuyenThamQuanId=chuyenThamQuan.id;typeCheck='check-out'"><i
+              class="fas fa-check mr-right-5"></i>{{langData[langCode].DA_DIEM_DANH}}</button>
+        </div>
+      </td>
+      <!-- Viewfile checkout -->
+      <td nzAlign="center">
+        <div *ngIf="(fileCheck[i]?.fileCheckOut)" appGetImageView [idFile]="fileCheck[i].fileCheckOut"
+          (returnImageResourceUrl)="saveResourceBannerView(fileCheck[i].fileCheckOut, $event)">
+          <a href="javascript:void(0)" (click)="openModalViewFile(viewFileOut, fileCheck[i].fileCheckOut)">
+            <span *ngIf="!objBannerView[fileCheck[i].fileCheckOut]"><i>{{langData[langCode].DANG_TAI}}</i></span>
+            <img class="w-100 preview-img" [attr.src]="objBannerView[fileCheck[i].fileCheckOut]"
+              onerror="this.src='assets/img/other/default-img.jpg'"></a>
+        </div>
+      </td>
+
+      <!-- Checkout -->
+      <td nzAlign="center">
+        <div>
+          <a [routerLink]="['/work-guide', 'check-guide' , 'student', chuyenThamQuan.id]">
+            <button nz-button nzType="primary" type="button" nzSize="small" class="mr-top-5"><i
+                class="fas fa-eye mr-right-5 pointer"></i>View</button>
+          </a>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<ng-template #formUpload>
+  <form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{langData[langCode].FILE}}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'file')">
+        <app-upload-file class="w-100" [isUploadMultiFile]="false" [acceptFilesExtension]="'.png,.jpg'"
+          [subFolderOnServer]="'file-check'" [listFilesPatch]="extractFileFromListId([form.get('file').value].flat())"
+          (returnedListId)="setIdFileToForm($event, 'file', form)">
+        </app-upload-file>
+        <app-field-error-display [displayError]="isFieldValid(form, 'file')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+    <div nz-row class="ant-modal-footer fk-modal-footer">
+      <div nz-col nzSpan="24" class="ali-right">
+        <div class="pad-left-form-control" style="display: inline-block">
+          <button nz-button nzType="primary" nzSize="default" type="button" (click)="diemDanh()">
+            <i class="fas fa-save mr-right-5"></i>{{ langData[langCode].LUU }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>
+
+<ng-template #viewFileIn>
+  <app-view-file [fileId]="selectedFileIdForView" [viewer]="viewer" (hideIframe)="hideModalViewFile()"></app-view-file>
+</ng-template>
+
+<ng-template #viewFileOut>
+  <app-view-file [fileId]="selectedFileIdForView" [viewer]="viewer" (hideIframe)="hideModalViewFile()"></app-view-file>
+</ng-template>
+
+<br><br><br>
+<!--
+<input #selectImg type="file" accept=".png,.jpg,.jpeg" (change)="diemDanh($any($event).target.files[0])" hidden> -->

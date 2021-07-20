@@ -1,0 +1,18 @@
+.block-style {
+  padding: 10px;
+  border-radius: 2px;
+  background-color: white;
+  box-shadow: 1px 1px 4px 0px #928d8d;
+}
+
+.no-post-selected {
+  width: 100%;
+  max-width: 300px;
+  max-height: 300px;
+}
+@media only screen and (max-width: 575px) {
+  .pad-small-view {
+    padding: inherit;
+    padding-bottom: 15px;
+  }
+}

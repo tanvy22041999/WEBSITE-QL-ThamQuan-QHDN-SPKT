@@ -1,0 +1,70 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="getDataPaging(true)" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="getDataPaging(true)"><i class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+    <button nz-button class="nz-btn-green" (click)="openModal(formModal)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  </div>
+</div>
+<hr>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listBanner.data" [nzScroll]="{x: '700px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].TIEU_DE}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].TRANG_THAI}}</th>
+      <th nzAlign="center" nzWidth="400px">{{langData[langCode].ANH_XEM_TRUOC}}</th>
+      <th nzAlign="center" nzWidth="50px"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let banner of listBanner.data; let i = index">
+      <td nzAlign="center">
+        {{ i + 1 + (listBanner.currentPage-1) * listBanner.limit}}
+      </td>
+      <td nzAlign="center">
+        {{ banner.tieuDe }}
+      </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="success" class="pointer mr-right-0" *ngIf="banner.trangThai" (click)="changeStatus(banner.id)">
+          {{langData[langCode].KICH_HOAT}}</nz-tag>
+        <nz-tag nzColor="error" class="pointer mr-right-0" *ngIf="!banner.trangThai" (click)="changeStatus(banner.id)">
+          {{langData[langCode].KHONG_KICH_HOAT}}</nz-tag>
+      </td>
+      <td nzAlign="center" appGetImageView [idFile]="banner.fileSideBanner"
+        (returnImageResourceUrl)="saveResourceBannerView(banner.id, $event)">
+        <a href="javascript:void(0)" (click)="openModalViewBanner(viewBanner, banner.fileSideBanner)">
+          <span *ngIf="!objBannerView[banner.id]"><i>{{langData[langCode].DANG_TAI}}</i></span>
+          <img class="w-100 preview-img" [attr.src]="objBannerView[banner.id]"
+            onerror="this.src='assets/img/bg/default-banner.jpg'"></a>
+      </td>
+      <td nzAlign="center">
+        <button nz-button nzType="primary" type="button" nzSize="small" (click)="openModal(formModal, banner)"><i
+            class="fas fa-edit"></i></button>
+        <br>
+        <button nz-button nzType="default" class="nz-btn-red mr-top-5" type="button" nzSize="small"
+          (click)="deleteBanner(banner.id)"><i class="fas fa-trash"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<app-table-paginate [pageConfig]="listBanner" (pageChange)="pageChange($event)"></app-table-paginate>
+
+<ng-template #formModal>
+  <app-form-side-banner [modalData]="modalData" [lastestThuTu]="listBanner.totalItem+1"
+    (closeModal)="closeModal($event)"></app-form-side-banner>
+</ng-template>
+
+<ng-template #viewBanner>
+  <app-view-file [fileId]="selectedFileSideBanner" [viewer]="viewer" (hideIframe)="hideModalViewFile()"></app-view-file>
+</ng-template>

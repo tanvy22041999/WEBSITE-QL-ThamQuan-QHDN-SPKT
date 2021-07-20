@@ -1,0 +1,128 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+  <div formGroupName="dotThamQuan">
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].TEN_DOT_THAM_QUAN }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan.tenDotThamQuan')">
+        <input nz-input formControlName="tenDotThamQuan" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.tenDotThamQuan')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].NOI_DUNG_THAM_QUAN }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan.noiDungThamQuan')">
+        <textarea nz-input [nzAutosize]="{ minRows: 3, maxRows: 5 }" formControlName="noiDungThamQuan"></textarea>
+        <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.noiDungThamQuan')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].MUC_DICH }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan.mucDich')">
+        <input nz-input formControlName="mucDich" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.mucDich')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="24">
+        <label>{{langData[langCode].YEU_CAU}}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan.yeuCau')">
+        <input nz-input formControlName="yeuCau" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.yeuCau')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="14">
+        <div nz-row class="pad-bot-form">
+          <div nz-col nzSpan="24">
+            <label>{{ langData[langCode].NAM_HOC }}</label><label class="field-required">*</label>
+          </div>
+          <div nz-col nzSpan="17" [ngClass]="displayFieldCss(form, 'dotThamQuan.namHoc')">
+            <input class="mr-right-10" nz-input formControlName="namHoc" />
+            <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.namHoc')"
+              [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+            </app-field-error-display>
+          </div>
+        </div>
+      </div>
+      <div nz-col nzSpan="10">
+        <div nz-col nzSpan="24">
+          <label>{{langData[langCode].HOC_KY}}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan.hocKy')">
+          <nz-select class="w-100" nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_HOC_KY"
+            formControlName="hocKy">
+            <nz-option [nzLabel]="'1'" [nzValue]="langData[langCode].HK1">
+            </nz-option>
+            <nz-option [nzLabel]="'2'" [nzValue]="langData[langCode].HK2">
+            </nz-option>
+          </nz-select>
+          <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.hocKy')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+
+
+    <div nz-row class="pad-bot-form">
+      <div nz-col nzSpan="14">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].NGAY_BAT_DAU }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="17" [ngClass]="displayFieldCss(form, 'dotThamQuan.tuNgay')">
+          <nz-date-picker formControlName="tuNgay" [nzFormat]="dateFormat" class="d-block" nzAllowClear>
+          </nz-date-picker>
+          <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.tuNgay')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <div nz-col nzSpan="10">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].NGAY_KET_THUC }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan.denNgay')">
+          <nz-date-picker formControlName="denNgay" [nzFormat]="dateFormat" class="d-block"></nz-date-picker>
+          <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan.denNgay') "
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()">
+          <i class="fas fa-times mr-right-5"></i>{{ langData[langCode].HUY }}
+        </button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()">
+          <i class="fas fa-save mr-right-5"></i>{{ langData[langCode].LUU }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,60 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="getDataPaging()" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="getDataPaging()"><i class="fas fa-search"></i></button>
+      </ng-template>
+
+    </nz-input-group>
+    <button *ngIf="listCommonSettings.data.length === 0" nz-button class="nz-btn-green" (click)="openModal(formModal)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  </div>
+</div>
+<hr>
+
+
+<div nz-row [nzGutter]="16" class="mr-bot-10">
+  <div nz-col nzSpan="14"></div>
+
+  <div nz-col nzSpan="24">
+    <nz-table #dataTable nzShowPagination='false' class="table-border table-cell-middle table-margin-bot" nzBordered
+      [nzData]="listCommonSettings.data" [nzScroll]="{x: '450px'}">
+      <thead>
+        <tr>
+          <th nzWidth="150px" nzAlign="center">{{langData[langCode].EMAIL_GUI_THU}}</th>
+          <th nzWidth="150px" nzAlign="center">{{langData[langCode].EMAIL_NHAN_THU}}</th>
+          <th nzWidth="100px" nzAlign="center">{{langData[langCode].PHU_CAP_CONG_TAC_VIEN}}</th>
+          <th nzWidth="50px" nzAlign="center"><i class="fas fa-cog"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of listCommonSettings.data; index as i">
+          <td nzAlign="center">
+            {{ data.emailGuiThu }}
+          </td>
+          <td nzAlign="center">
+            {{ data.emailNhanThu }}
+          </td>
+          <td nzAlign="center">
+            {{ data.phuCapCongTacVien }}
+          </td>
+          <td nzAlign="center">
+            <button nz-button nzType="primary" type="button" nzSize="small" (click)="openModal(formModal, data)"><i
+                class="fas fa-edit"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+</div>
+
+<ng-template #formModal>
+  <app-form-common-settings [modalData]="modalData" (closeModal)="closeModal($event)">
+  </app-form-common-settings>
+</ng-template>

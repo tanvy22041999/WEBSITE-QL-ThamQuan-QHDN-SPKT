@@ -1,0 +1,19 @@
+hr {
+  border-top: solid .75px #bfbfbf;
+  border-bottom: none;
+  border-left: none;
+  border-right: none;
+}
+
+.pull-left {
+  float: left;
+}
+
+.pull-right {
+  float: right;
+}
+
+.element-on-right {
+  position: absolute;
+  right: 0;
+}

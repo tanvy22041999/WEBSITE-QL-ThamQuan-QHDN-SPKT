@@ -1,0 +1,23 @@
+<div class="sj-innerbanner">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="sj-innerbannercontent">
+          <h1>{{ langData[langCode].DONG_THOI_GIAN }} {{ langData[langCode].CHUYEN_THAM_QUAN }}</h1>
+          <ol class="sj-breadcrumb">
+            <li><a [routerLink]="['/']">{{ langData[langCode].TRANG_CHU }}</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="sj-content" class="sj-content sj-addarticleholdcontent sj-addarticleholdvtwo">
+  <div class="sj-manageallsession form-on-page">
+    <full-calendar #calendarEl [options]="calendarOptions"></full-calendar>
+  </div>
+</div>
+
+<ng-template #formModal>
+  <app-form-tour-details [modalData]="modalData" (closeModal)="closeModal()"></app-form-tour-details>
+</ng-template>

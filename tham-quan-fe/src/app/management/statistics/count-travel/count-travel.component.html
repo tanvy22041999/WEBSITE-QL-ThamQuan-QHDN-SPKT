@@ -1,0 +1,29 @@
+<div nz-row class="pad-bot-10">
+  <div nz-col nzSpan="12">
+    <span class="mr-right-5">{{langData[langCode].THONG_KE_THEO}}:</span>
+    <nz-select [(ngModel)]="selectedOption" class="w-25">
+      <nz-option nzValue="theoMocTime" [nzLabel]="langData[langCode].THEO_MOC_THOI_GIAN"></nz-option>
+      <nz-option nzValue="theoDN" [nzLabel]="langData[langCode].THEO_DOANH_NGHIEP"></nz-option>
+    </nz-select>
+  </div>
+
+  <div *ngIf="selectedOption == 'theoMocTime'" nz-col nzSpan="12" class="text-right">
+    <span class="mr-right-5 text-left">{{langData[langCode].CHON_KHOANG_NAM}}:</span>
+    <nz-range-picker [(ngModel)]="range" [nzPlaceHolder]="namae" (ngModelChange)="onTheoMocThoiGian($event)"></nz-range-picker>
+  </div>
+  <div *ngIf="selectedOption == 'theoDN'" nz-col nzSpan="12" class="text-right">
+    <span class="mr-right-5 text-left">{{langData[langCode].CHON_THOI_GIAN}}:</span>
+    <nz-date-picker nzMode="year" nzFormat='yyyy' [nzPlaceHolder]="langData[langCode].CHON_NAM" [(ngModel)]="pickedYear" (ngModelChange)="onTheoDN($event)"></nz-date-picker>
+  </div>
+
+  <ngx-charts-bar-vertical
+    [view]="view"
+    [results]="dataSetForDisplay"
+    [xAxis]="true"
+    [yAxis]="true"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="langData[langCode].CHUYEN_THAM_QUAN"
+    [yAxisLabel]="langData[langCode].SO_LUONG">
+  </ngx-charts-bar-vertical>

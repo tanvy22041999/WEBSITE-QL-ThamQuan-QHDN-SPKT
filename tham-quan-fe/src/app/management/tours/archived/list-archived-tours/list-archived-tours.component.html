@@ -1,0 +1,74 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="getDataPaging(filterData, filterHoanTat)" (keyup)="getDataPaging(filterData, filterHoanTat)" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="getDataPaging(filterData, filterHoanTat)"><i
+            class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+    <button nz-button class="nz-btn-green" (click)="openModal(formChuyenThamQuan)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  </div>
+</div>
+<hr>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listChuyenThamQuan.data" [nzScroll]="{x: '800px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].TEN_CHUYEN_THAM_QUAN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].THOI_GIAN_KHOI_HANH}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DIA_DIEM_KHOI_HANH}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].DOANH_NGHIEP}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DOT_THAM_QUAN}}</th>
+      <th nzAlign="center" nzWidth="150px"><i class="fas fa-eye"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let chuyenThamQuan of listChuyenThamQuan.data; let i = index">
+      <tr>
+        <td nzAlign="center"> {{ i + 1 + (listChuyenThamQuan.currentPage-1) *
+          listChuyenThamQuan.limit}} </td>
+        <td nzAlign="center">{{ chuyenThamQuan.tenChuyenThamQuan}}</td>
+        <td nzAlign="center">{{ chuyenThamQuan.thoiGianKhoiHanh | date:'dd-MM-yyyy HH:mm'}}</td>
+        <td nzAlign="center">{{ chuyenThamQuan.diaDiemKhoiHanh.tenDiaDiem}}</td>
+        <td nzAlign="center">{{ chuyenThamQuan.doanhNghiep?.congTy}}</td>
+        <td nzAlign="center">{{ chuyenThamQuan.dotThamQuan?.tenDotThamQuan}}</td>
+        <td nzAlign="center">
+          <button nz-button nzType="primary" type="button" nzSize="default" class="nz-btn-green"
+            (click)="openModalStudent(formModalStudent, chuyenThamQuan,true)"><i class="fas fa-eye"></i>
+            {{ langData[langCode].XEM_DSSV}}</button>
+          <button nz-button nzType="primary" type="button" nzSize="default" class="nz-btn-blue mr-top-10"
+            (click)="openModalCTV(formModalCTV, chuyenThamQuan, true)"><i class=" fas fa-eye"></i>
+            {{ langData[langCode].XEM_DSCTV}}</button>
+          <button nz-button nzType="primary" type="button" nzSize="default" class="mr-top-10"
+            (click)="openModal(formChuyenThamQuan, chuyenThamQuan)"><i class="fas fa-eye"></i>
+            {{ langData[langCode].XEM_THONG_TIN}}</button>
+          <br>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</nz-table>
+<app-table-paginate [pageConfig]="listChuyenThamQuan" (pageChange)="pageChange($event, filterHoanTat)">
+</app-table-paginate>
+<ng-template #formChuyenThamQuan>
+  <app-form-archived-tours [modalData]="modalData" (closeModal)="closeModal($event)"></app-form-archived-tours>
+</ng-template>
+<ng-template #formModalStudent>
+  <app-list-join-student [modalDataChuyenThamQuan]="modalData" (closeModalStudent)="closeModalStudent()"
+    [isUpdate]="isUpdate">
+  </app-list-join-student>
+</ng-template>
+
+<ng-template #formModalCTV>
+  <app-list-joined-guide [modalDataChuyenThamQuan]="modalData" (closeModalCTV)="closeModalStudent()"
+    [isUpdate]="isUpdate">
+  </app-list-joined-guide>
+</ng-template>

@@ -1,0 +1,88 @@
+.has-error .help-block,
+.has-error .control-label,
+.has-error .radio,
+.has-error .checkbox,
+.has-error .radio-inline,
+.has-error .checkbox-inline,
+.has-error.radio label,
+.has-error.checkbox label,
+.has-error.radio-inline label,
+.has-error.checkbox-inline label {
+  color: #a94442;
+}
+.has-error .form-control {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-error .form-control:focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+.has-error .input-group-addon {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #a94442;
+}
+.has-error .form-control-feedback {
+  color: #a94442;
+}
+
+.has-feedback {
+  position: relative;
+}
+.has-feedback .form-control {
+  padding-right: 42.5px;
+}
+.has-feedback label ~ .form-control-feedback {
+  top: 25px;
+}
+.has-feedback label.sr-only ~ .form-control-feedback {
+  top: 0;
+}
+.form-horizontal .has-feedback .form-control-feedback {
+  right: 15px;
+}
+@media (min-width: 768px) {
+  .form-inline .has-feedback .form-control-feedback {
+    top: 0;
+  }
+  .navbar-form .has-feedback .form-control-feedback {
+    top: 0;
+  }
+}
+
+.center-form {
+  width: 100%;
+  max-width: 450px;
+}
+.form-on-page {
+  display: flex;
+  justify-content: center;
+}
+.ant-form-item {
+  margin-bottom: 15px;
+}
+.nz-form-input {
+  height: 35px;
+  font-size: 15px
+}
+.prefix-icon {
+  margin-top: 5px;
+  margin-right: 5px;
+  font-size: 16px;
+}
+.append-icon {
+  margin-top: 5px;
+  font-size: 16px;
+}
+.ant-divider-horizontal.ant-divider-with-text::before, .ant-divider-horizontal.ant-divider-with-text::after {
+  transform: unset;
+}
+.brg-form {
+  // background-image: url("../assets/img/bg/wave-bg.png");
+  background-image: url("../img/bg/wave-bg.png");
+  background-position: 50%;
+  background-size: cover;
+}

@@ -1,0 +1,61 @@
+<div class="sj-innerbanner">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="sj-innerbannercontent">
+          <h1>{{listLoaiBaiVietTitle[postType]}}</h1>
+          <ol class="sj-breadcrumb">
+            <li><a [routerLink]="['/']">{{ langData[langCode].TRANG_CHU }}</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="sj-content" class="sj-content sj-addarticleholdcontent sj-addarticleholdvtwo">
+  <div class="sj-manageallsession form-on-page brg-form">
+    <div class="row w-100">
+      <div class="col-12 col-xs-12 col-sm-4 col-md-3 col-lg-3 col-xl-3 pad-right-5 pad-small-view">
+        <div class="block-style">
+          <div class="text-center">
+            <span class="text-bold text-uppercase">{{this.langData[this.langCode].DANH_SACH_BAI_DANG}}</span>
+          </div>
+          <hr>
+          <div *ngIf="totalPages === 0" class="text-center">
+            <small>{{langData[langCode].CHUA_CO_NOI_DUNG}}</small>
+          </div>
+          <div *ngIf="totalPages > 0">
+            <ul class="pad-left-15">
+              <li class="pointer pad-bot-5" *ngFor="let baiViet of listBaiViet.data" (click)="viewBaiViet(baiViet)">
+                {{ baiViet.tieuDe }}</li>
+            </ul>
+          </div>
+          <hr>
+          <div class="w-100 text-center">
+            <a *ngIf="totalPages > currentPageNumber+1" (click)="getDataPaging(currentPageNumber+1)">
+              {{langData[langCode].TAI_THEM}}</a>
+            <i *ngIf="totalPages <= currentPageNumber+1"><small>- {{langData[langCode].CUOI_DANH_SACH}} -</small></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xs-12 col-sm-8 col-md-9 col-lg-9 col-xl-9 pad-left-5 pad-small-view">
+        <div class="block-style" *ngIf="selectedBaiViet.id">
+          <h3 class="text-bold text-uppercase mr-bot-0">{{ selectedBaiViet.tieuDe
+            }}</h3>
+          <small class="text-bold">{{langData[langCode].NGAY_DANG}}: </small><small>{{selectedBaiViet.createdDate |
+            date: 'HH:mm dd/MM/yyyy'}}</small>
+          <hr>
+          <div [innerHTML]="( replaceVideoTag(selectedBaiViet.noiDung) ) | safeHtml"></div>
+        </div>
+        <div class="block-style text-center" *ngIf="!selectedBaiViet.id">
+          <br>
+          <img src="assets/img/other/gian-doan.svg" class="no-post-selected">
+          <br><br>
+          <h2>{{langData[langCode].HAY_CHON_MOT_MUC}}</h2>
+          <br>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

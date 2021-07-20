@@ -1,0 +1,33 @@
+<hr>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listChuyenThamQuan.data" [nzScroll]="{x: '700px'}">
+  <thead>
+
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].TEN_CHUYEN_THAM_QUAN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].THOI_GIAN_KHOI_HANH}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DIA_DIEM_KHOI_HANH}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].DOANH_NGHIEP}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DOT_THAM_QUAN}}</th>
+      <th nzAlign="center" nzWidth="50px" *ngIf="!isDuyet"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let chuyenThamQuan of listChuyenThamQuan.data; let i = index">
+      <td nzAlign="center"> {{ i + 1 + (listChuyenThamQuan.currentPage-1) *
+        listChuyenThamQuan.limit}} </td>
+      <td nzAlign="center">{{ chuyenThamQuan.tenChuyenThamQuan}}</td>
+      <td nzAlign="center">{{ chuyenThamQuan.thoiGianKhoiHanh | date:'dd-MM-yyyy HH:mm'}}</td>
+      <td nzAlign="center">{{ chuyenThamQuan.diaDiemKhoiHanh.tenDiaDiem}}</td>
+      <td nzAlign="center">{{ chuyenThamQuan.doanhNghiep?.congTy}}</td>
+      <td nzAlign="center">{{ chuyenThamQuan.dotThamQuan?.tenDotThamQuan}}</td>
+      <td nzAlign="center">
+        <button nz-button nzType="primary" type="button" nzSize="default" class="mr-top-10"><i
+            (click)="doSurvey(chuyenThamQuan.id)" class="fas fa-poll-h"></i>
+        </button>
+        <br>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

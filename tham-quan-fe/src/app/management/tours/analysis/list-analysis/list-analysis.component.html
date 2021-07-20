@@ -1,0 +1,71 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}} </span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="getDataPaging()" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="getDataPaging()"><i class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+    <!-- <button nz-button class="nz-btn-green" (click)="openModal(formModal)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button> -->
+  </div>
+</div>
+    <nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+      [nzData]="listThongKe.data" [nzScroll]="{x: '1250px'}">
+      <thead>
+        <tr>
+          <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+          <th nzAlign="center" nzWidth="150px">{{langData[langCode].TEN_DN}}</th>
+          <th nzAlign="center" nzWidth="300px">{{langData[langCode].DIA_CHI}}</th>
+          <th nzAlign="center" nzWidth="100px">{{langData[langCode].NGAY_THAM_QUAN}}</th>
+          <th nzAlign="center" nzWidth="100px">{{langData[langCode].GIANG_VIEN}}</th>
+          <th nzAlign="center" nzWidth="150px">{{langData[langCode].KHOA}}</th>
+          <th nzAlign="center" nzWidth="100px">{{langData[langCode].SO_LUONG_SV}}</th>
+          <th nzAlign="center" nzWidth="100px">{{langData[langCode].SO_LUONG_GV}}</th>
+          <th nzAlign="center" nzWidth="100px">{{langData[langCode].CONG_TAC_VIEN}}</th>
+          <th nzAlign="center" nzWidth="100px">{{langData[langCode].TIME}}</th>
+          <th nzAlign="center" nzWidth="100px"><i class="fas fa-cog"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let thongKe of listThongKe.data; let i = index">
+          <tr>
+            <td nzAlign="center"> {{ i + 1 + (listThongKe.currentPage-1) *
+              listThongKe.limit}} </td>
+            <td nzAlign="center">{{ thongKe.tenDN}}</td>
+            <td nzAlign="center">{{ thongKe.diaChi}}</td>
+            <td nzAlign="center">{{ thongKe.ngayThamQuan}}</td>
+            <td nzAlign="center">{{ thongKe.giangVien}}</td>
+            <td nzAlign="center">{{ thongKe.khoa}}</td>
+            <td nzAlign="center">{{ thongKe.soLuongSV}}</td>
+            <td nzAlign="center">{{ thongKe.soLuongGV}}</td>
+            <td nzAlign="center">{{ thongKe.congTacVien}}</td>
+            <td nzAlign="center">{{ thongKe.time}}</td>
+
+            <!-- <td nzAlign="center">
+              <nz-tag nzColor="success" class="pointer" *ngIf="chuyenThamQuan.trangThai"
+                (click)="changeStatus(chuyenThamQuan.id)">
+                {{langData[langCode].KICH_HOAT}}</nz-tag>
+              <nz-tag nzColor="error" class="pointer" *ngIf="!chuyenThamQuan.trangThai"
+                (click)="changeStatus(chuyenThamQuan.id)">
+                {{langData[langCode].KHONG_KICH_HOAT}}</nz-tag>
+            </td> -->
+            <!-- <td nzAlign="center">
+              <button nz-button nzType="primary" type="button" nzSize="small"
+                (click)="openModal(formModal, thongKe)"><i class="fas fa-edit"></i></button>
+            </td> -->
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+
+    <app-table-paginate [pageConfig]="listThongKe" (pageChange)="pageChange($event)"></app-table-paginate>
+
+<!-- <ng-template #formModal>
+  <app-form-tours [modalData]="modalData" (closeModal)="closeModal($event)"></app-form-tours>
+</ng-template> -->

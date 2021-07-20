@@ -1,0 +1,123 @@
+<div nz-row class="pad-bot-10">
+  <div nz-col nzSpan="12">
+    <span class="mr-right-5">{{langData[langCode].THONG_KE_THEO}}:</span>
+    <nz-select [(ngModel)]="selectedOption" class="w-50">
+    <!-- (ngModelChange)="loadCauTLSVTheoCauHoiLuaChon($event)" -->
+      <nz-option nzValue="dnTheoCauTLNhapLieu" [nzLabel]="langData[langCode].CAU_TL_DOANH_NGHIEP_LOAI_NHAP_LIEU"></nz-option>
+      <nz-option nzValue="dnTheoCauTLSapXep" [nzLabel]="langData[langCode].CAU_TL_DOANH_NGHIEP_LOAI_SAP_XEP"></nz-option>
+      <nz-option nzValue="dnTheoCauTLLuaChon" [nzLabel]="langData[langCode].CAU_TL_DOANH_NGHIEP_LOAI_LUA_CHON"></nz-option>
+      <nz-option nzValue="svTheoCauTLNhapLieu" [nzLabel]="langData[langCode].CAU_TL_SINH_VIEN_LOAI_NHAP_LIEU"></nz-option>
+      <nz-option nzValue="svTheoCauTLSapXep" [nzLabel]="langData[langCode].CAU_TL_SINH_VIEN_LOAI_SAP_XEP"></nz-option>
+      <nz-option nzValue="svTheoCauTLLuaChon" [nzLabel]="langData[langCode].CAU_TL_SINH_VIEN_LOAI_LUA_CHON"></nz-option>
+      <nz-option nzValue="ctvTheoCauTLNhapLieu" [nzLabel]="langData[langCode].CAU_TL_CTV_LOAI_NHAP_LIEU"></nz-option>
+      <nz-option nzValue="ctvTheoCauTLSapXep" [nzLabel]="langData[langCode].CAU_TL_CTV_LOAI_SAP_XEP"></nz-option>
+      <nz-option nzValue="ctvTheoCauTLLuaChon" [nzLabel]="langData[langCode].CAU_TL_CTV_LOAI_LUA_CHON"></nz-option>
+    </nz-select>
+  </div>
+
+  <div nz-col nzSpan="12" class="text-right">
+    <span class="mr-right-5 text-left">{{langData[langCode].CHON_CHUYEN_THAM_QUAN}}:</span>
+    <nz-select class="w-25" nzShowSearch [nzPlaceHolder]="langData[langCode].CHON_CHUYEN_THAM_QUAN"
+      (nzOnSearch)="searchChuyenThamQuanValueChanged.next($any($event))" nzAllowClear
+      [(ngModel)]="selectedCTQ" (ngModelChange)="onCTQ($event)">
+      <nz-option *ngFor="let ctq of listChuyenThamQuan.data" [nzLabel]="ctq.tenChuyenThamQuan" [nzValue]="ctq.id">
+      </nz-option>
+    </nz-select>
+  </div>
+
+  <hr>
+
+  <div nz-col nzSpan="24" *ngIf="selectedOption == 'dnTheoCauTLNhapLieu'">
+    <nz-table *ngFor="let thongKe of thongKeCauTLDNTheoNhapLieu" #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+    [nzData]="thongKe.cauTraLoi" [nzScroll]="{x: '500px'}">
+      <thead>
+        <tr>
+          <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+          <th nzAlign="center" nzWidth="450px">{{langData[langCode].CAU_TRA_LOI}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let ctl of thongKe.cauTraLoi; let i = index">
+          <tr>
+            <td nzAlign="center"> {{ i + 1 }}</td>
+            <td nzAlign="center">{{ ctl }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <hr>
+
+  <div nz-col nzSpan="24" *ngIf="selectedOption == 'svTheoCauTLNhapLieu'">
+    <nz-table *ngFor="let thongKe of thongKeCauTLSVTheoNhapLieu" #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+    [nzData]="thongKe.cauTraLoi" [nzScroll]="{x: '500px'}">
+      <thead>
+        <tr>
+          <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+          <th nzAlign="center" nzWidth="450px">{{langData[langCode].CAU_TRA_LOI}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let ctl of thongKe.cauTraLoi; let i = index">
+          <tr>
+            <td nzAlign="center"> {{ i + 1 }}</td>
+            <td nzAlign="center">{{ ctl }}</td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <hr>
+
+  <div nz-col nzSpan="24" *ngIf="selectedOption == 'ctvTheoCauTLNhapLieu'">
+  <nz-table *ngFor="let thongKe of thongKeCauTLCTVTheoNhapLieu" #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="thongKe.cauTraLoi" [nzScroll]="{x: '500px'}">
+    <thead>
+      <tr>
+        <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+        <th nzAlign="center" nzWidth="450px">{{langData[langCode].CAU_TRA_LOI}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let ctl of thongKe.cauTraLoi; let i = index">
+        <tr>
+          <td nzAlign="center"> {{ i + 1 }}</td>
+          <td nzAlign="center">{{ ctl }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </nz-table>
+  </div>
+
+  <div nz-col nzSpan="24" *ngIf="selectedOption === 'dnTheoCauTLSapXep' || 'svTheoCauTLSapXep' || 'ctvTheoCauTLSapXep'">
+    <ngx-charts-bar-vertical-2d *ngFor="let result of dataSetForDisplay"
+    [view]="view"
+    [results]="result"
+    [xAxis]="true"
+    [yAxis]="true"
+    [legend]="true"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="langData[langCode].LOAI_CAU_HOI"
+    [yAxisLabel]="langData[langCode].SO_CAU_TRA_LOI"
+    [legendTitle]="legendTitle"
+    (select)="onSelect($event)">
+    </ngx-charts-bar-vertical-2d>
+  </div>
+
+  <div nz-col nzSpan="24" *ngIf="selectedOption ==='dnTheoCauTLLuaChon' || 'svTheoCauTLLuaChon' || 'ctvTheoCauTLLuaChon'">
+    <ngx-charts-pie-chart *ngFor="let result of dataSetForDisplayPie"
+    [view]="view"
+    [results]="result"
+    [gradient]="true"
+    [legend]="true"
+    [labels]="true"
+    [doughnut]="false"
+    (select)="onSelect($event)">
+    </ngx-charts-pie-chart>
+  </div>
+
+</div>
+

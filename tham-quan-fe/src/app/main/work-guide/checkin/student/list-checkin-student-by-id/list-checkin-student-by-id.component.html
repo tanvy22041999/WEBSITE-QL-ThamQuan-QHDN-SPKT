@@ -1,0 +1,58 @@
+<hr>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listSinhVienThamQuan.data" [nzScroll]="{x: '800px'}">
+  <!-- <div nz-row>
+    <div nz-col nzSpan="12" class="text-right">
+      <button nz-button class="nz-btn-green mr-top-5" (click)="openModal(formModal)">
+        <i class="fas fa-check mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+    </div>
+  </div> -->
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].MSSV}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].HO_TEN}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].SO_PHUT_DI_TRE}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].THOI_GIAN_DIEM_DANH}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].TRANG_THAI}}</th>
+      <th nzAlign="center" nzWidth="150px"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sinhVien of listSinhVienThamQuan.data; let i = index">
+      <td nzAlign="center">
+        {{ i + 1 }}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.sinhVien.maSV }}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.sinhVien.hoTen }}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.soPhutDiTre }}
+      </td>
+      <td nzAlign="center">
+        {{ sinhVien.thoiGianDiemDanh | date: 'hh:mm dd/MM/yyyy' }}
+      </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="success" class="pointer" *ngIf="sinhVien.trangThai">
+          {{langData[langCode].DA_DIEM_DANH}}</nz-tag>
+        <nz-tag nzColor="error" class="pointer" *ngIf="!sinhVien.trangThai">
+          {{langData[langCode].CHUA_DIEM_DANH}}</nz-tag>
+      </td>
+      <td nzAlign="center">
+        <button nz-button class="nz-btn-green mr-top-5" (click)="openModal(formModal)">
+          <i class="fas fa-check mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<app-table-paginate [pageConfig]="listSinhVienThamQuan" (pageChange)="pageChange($event)"></app-table-paginate>
+
+<ng-template #formModal>
+  <app-form-checkin-student [idChuyenThamQuan]="chuyenThamQuanIdCurrent" (closeModal)="closeModal($any($event))">
+  </app-form-checkin-student>
+</ng-template>
+
+<br><br><br>

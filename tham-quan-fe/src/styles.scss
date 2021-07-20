@@ -1,0 +1,135 @@
+// Margin
+@import './assets/css/margin.scss';
+
+// Padding
+@import './assets/css/padding.scss';
+
+// Custom width / height
+@import './assets/css/width-height.scss';
+
+// Nz-Btn Custom color
+@import './assets/css/nz-btn-custom.scss';
+
+// Nz-Modal custom
+@import './assets/css/nz-modal-custom.scss';
+
+// Nz-table custom
+@import './assets/css/nz-table-custom.scss';
+
+// Drag Drop
+@import './assets/css/drag-drop.scss';
+
+// Custom text color
+@import './assets/css/custom-text.scss';
+
+// Custom hide
+@import './assets/css/hide-custom.scss';
+
+// Form field
+@import './assets/css/form-field-css.scss';
+
+// Other custom
+@import './assets/css/other-custom.scss';
+
+// Theme's font
+@import './assets/theme/css/font-face.scss';
+
+// For full calendar
+@import './assets/css/full-calendar.scss';
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+// Scrollbar style common
+::-webkit-scrollbar-track {
+  width: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+::-webkit-scrollbar-thumb {
+  width: 10px;
+  background-color: #1976d2;
+  background-image: -webkit-linear-gradient(45deg,
+      rgba(255, 255, 255, .2) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgba(255, 255, 255, .2) 50%,
+      rgba(255, 255, 255, .2) 75%,
+      transparent 75%,
+      transparent)
+}
+// End: Scrollbar style common
+
+/* Global CkEditor 5 */
+/* CkE Default */
+.ck-editor__editable_inline {
+  min-height: 100px;
+  max-height: 500px;
+  overflow: scroll;
+}
+/* CkE Default */
+.cke-h50px .ck-editor__editable_inline {
+  min-height: 50px !important;
+}
+/* CkE Default */
+.cke-h200px .ck-editor__editable_inline {
+  min-height: 200px !important;
+}
+/* End Global CkEditor 5 */
+
+// Linh tinh
+.pointer:hover {
+  cursor: pointer;
+}
+// END Linh tinh
+// Đăng kí tham quan
+.project-on-page {
+  display: flex;
+  justify-content: center;
+}
+.center-form {
+  width: 100%;
+  max-width: 450px;
+}
+.ant-form-item {
+  margin-bottom: 10px;
+}
+.nz-form-input {
+  height: 35px;
+  font-size: 15px
+}
+.prefix-icon {
+  margin-top: 5px;
+  margin-right: 5px;
+  font-size: 16px;
+}
+.append-icon {
+  margin-top: 5px;
+  font-size: 16px;
+}
+.ant-divider-horizontal.ant-divider-with-text::before, .ant-divider-horizontal.ant-divider-with-text::after {
+  transform: unset;
+}
+
+ul.no-bullet {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+// Kết thúc đăng kí tham quan
+
+.cdk-overlay-container {
+  z-index: 1134 !important;
+}

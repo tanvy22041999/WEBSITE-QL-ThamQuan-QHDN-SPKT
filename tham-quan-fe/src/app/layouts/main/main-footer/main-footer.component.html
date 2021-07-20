@@ -1,0 +1,56 @@
+<footer id="sj-footer" class="sj-footer sj-haslayout">
+  <div class="container">
+    <div class="row">
+      <a class="sj-btnscrolltotop" href="javascript:void(0);"><i class="fa fa-angle-up"></i></a>
+      <div class="sj-footercolumns">
+        <div class="row">
+          <div class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pad-top-15">
+            <div class="sj-fcol sj-footeraboutus">
+              <div class="row">
+                <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-2 col-xl-2">
+                  <img src="assets/img/logo/ute_logo.png" class="logo-bottom">
+                </div>
+                <div class="col-3 col-xs-3 col-sm-3 col-md-3 col-lg-3 col-xl-3">
+                  <strong class="sj-logo">
+                    <div class="sj-description logo-bottom-txt">
+                      <span>
+                        {{ langData[langCode].THONG_TIN_TRUONG_1 }}<br>
+                        {{ langData[langCode].THONG_TIN_TRUONG_2 }}<br>
+                        {{ langData[langCode].THONG_TIN_KHOA }}</span>
+                    </div>
+                  </strong>
+                  <ul class="sj-socialicons sj-socialiconssimple">
+                    <li class="sj-website"><a href="javascript:void(0);"><i class="fas fa-globe"></i></a></li>
+                    <li class="sj-facebook"><a href="javascript:void(0);"><i class="fab fa-facebook-f"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pad-top-15">
+            <div class="sj-fcol sj-widget sj-widgetcontactus">
+              <div class="sj-widgetheading">
+                <h3>{{ langData[langCode].LIEN_HE_CHUNG_TOI }}</h3>
+              </div>
+              <div class="sj-widgetcontent">
+                <ul class="pad-left-15">
+                  <li><i class="fas fa-map-marked-alt"></i>
+                    <address>
+                      {{ langData[langCode].PHONG_BAN }},<br>
+                      {{ langData[langCode].DIA_CHI_1 }}, {{ langData[langCode].DIA_CHI_2 }}</address>
+                  </li>
+                  <li><a href="tel:{{langData[langCode].SO_DIEN_THOAI_LIEN_HE}}"><i class="fas fa-phone"></i><span>{{langData[langCode].SO_DIEN_THOAI_LIEN_HE}}</span></a></li>
+                  <li><a href="mailto:{{langData[langCode].EMAIL_LIEN_HE}}}}"><i class="fas fa-envelope"></i><span
+                        class="email-txt">{{langData[langCode].EMAIL_LIEN_HE}}</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="sj-footerbottom">
+        <p class="sj-copyrights">© {{ nowYear }} <span>HCMUTE</span>. {{ langData[langCode].DESIGN_BY_COST }}.</p>
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,137 @@
+<main id="sj-main" class="sj-main sj-haslayout sj-sectionspace">
+  <div class="sj-haslayout top-bgr">
+    <div class="container welcome-container">
+      <div class="row">
+        <div class="col-12 col-xs-12 col-sm-12 col-md-12 col-lg-12 sj-verticalmiddle">
+          <!-- <div class="banner-link-layer" [ngStyle]="autoResizeBanner"></div> -->
+          <nz-carousel [nzEffect]="'scrollx'" nzAutoPlay [nzEnableSwipe]='false' [nzAutoPlaySpeed]="5000"
+            [ngStyle]="autoResizeBanner">
+            <div nz-carousel-content *ngFor="let banner of listBanner">
+              <a [attr.href]="(banner.lienKetNgoai ? banner.lienKetNgoai : 'javascript:void(0)') | safeUrl"
+                target="_blank">
+                <img
+                  [attr.src]="objBannerView[banner.id] ? objBannerView[banner.id] : 'assets/img/bg/default-banner-home.jpg'"
+                  class="w-100" #imgSlider appGetImageView [idFile]="banner.fileBanner"
+                  (returnImageResourceUrl)="saveResourceBannerView(banner.id, $event)"
+                  onerror="this.src='assets/img/bg/default-banner-home.jpg'"></a>
+            </div>
+          </nz-carousel>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="sj-twocolumns" class="sj-twocolumns">
+    <div class="container">
+
+      <div class="row">
+        <!--************************************
+            Left panel
+        *************************************-->
+        <div class="col-12 col-xs-12 col-sm-12 col-md-8 col-lg-9">
+          <div id="sj-content" class="sj-content">
+            <div class="sj-widgetcontent show-search-mobile">
+              <nz-input-group nzSearch [nzAddOnAfter]="suffixSearchButtonMobile">
+                <input type="text" nz-input class="search-input" [placeholder]="langData[langCode].TIM_KIEM" />
+              </nz-input-group>
+              <ng-template #suffixSearchButtonMobile>
+                <button nz-button nzType="primary" nzSize="large" type="button" nzSearch><i
+                    class="fas fa-search"></i></button>
+              </ng-template>
+            </div>
+
+            <section class="sj-haslayout sj-sectioninnerspace">
+              <div class="sj-borderheading format-title">
+                <span class="category-title">{{langData[langCode].THONG_BAO}}</span>
+                <a class="sj-btnview" [href]="'../posts/' + listLoaiBaiVietId.THONG_BAO">
+                  <span>{{langData[langCode].XEM_THEM}}</span>
+                  <i class="fas fa-chevron-circle-right mr-left-5 chevron"></i>
+                </a>
+              </div>
+              <div class="sj-content">
+                <div class="row">
+                  <div class="w-100">
+                    <app-post-tpl *ngFor="let thongBao of objListBaiViet[listLoaiBaiVietId.THONG_BAO]"
+                      [postId]="thongBao.id" [postType]="listLoaiBaiVietId.THONG_BAO" [postTitle]="thongBao.tieuDe "
+                      [postStatus]="[listLoaiBaiVietId.THONG_BAO, checkBaiVietMoi(thongBao.createdDate) ? 'BAI_VIET_MOI' : '']"
+                      [postCoverFileId]="thongBao.fileAnhBia" [postTime]="thongBao.createdDate"></app-post-tpl>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+        <!--************************************
+              Left panel End
+          *************************************-->
+
+
+        <!--************************************
+            Right panel
+        *************************************-->
+        <div class="col-12 col-xs-12 col-sm-12 col-md-4 col-lg-3">
+          <aside id="sj-sidebar" class="sj-sidebar">
+            <div class="sj-widget hide-search-pc">
+              <div class="sj-widgetcontent">
+                <nz-input-group nzSearch [nzAddOnAfter]="suffixSearchButton">
+                  <input type="text" nz-input class="search-input" [placeholder]="langData[langCode].TIM_KIEM"
+                    [(ngModel)]="valueSearch" />
+                </nz-input-group>
+                <ng-template #suffixSearchButton>
+                  <button nz-button nzType="primary" nzSize="large" type="button" nzSearch>
+                    <i class="fas fa-search"></i></button>
+                </ng-template>
+              </div>
+            </div>
+
+            <!-- Side banner -->
+            <div class="sj-widget box-right-clm">
+              <div class="sj-content">
+                <ng-container *ngFor="let sideBanner of listSideBanner">
+                  <a [attr.href]="(sideBanner.lienKetNgoai ? sideBanner.lienKetNgoai : 'javascript:void(0)') | safeUrl"
+                    target="_blank">
+                    <img class="w-100"
+                      [attr.src]="objSideBannerView[sideBanner.id] ? objSideBannerView[sideBanner.id] : 'assets/img/bg/default-cover.jpg'"
+                      appGetImageView [idFile]="sideBanner.fileSideBanner"
+                      (returnImageResourceUrl)="saveResourceSideBannerView(sideBanner.id, $event)"
+                      onerror="this.src='assets/img/bg/default-cover.jpg'"></a><br><br>
+                </ng-container>
+              </div>
+            </div>
+          </aside>
+
+        </div>
+        <!--************************************
+            Right panel End
+        *************************************-->
+      </div>
+
+
+      <div class="sj-main sj-haslayout sj-sectionspace">
+        <ng-container *ngFor="let loaiBaiViet of listLoaiBaiViet">
+          <ng-container *ngIf="loaiBaiViet.id !== listLoaiBaiVietId.THONG_BAO">
+            <div class="sj-borderheading format-title">
+              <span class="category-title">{{loaiBaiViet.title}}</span>
+              <a class="sj-btnview" href="javascript:void(0);" [href]="'../posts/' + loaiBaiViet.id">
+                <span>{{langData[langCode].XEM_THEM}}</span>
+                <i class="fas fa-chevron-circle-right mr-left-5 chevron"></i>
+              </a>
+            </div>
+            <div class="sj-content">
+              <div class="row">
+                <div class="col-12 col-sx-12 col-sm-6 col-md-6 col-lg-4 col-xl-4">
+                  <app-card-template *ngFor="let baiViet of objListBaiViet[loaiBaiViet.id]" [postId]="baiViet.id"
+                    [postType]="loaiBaiViet.id" [postTitle]="baiViet.tieuDe"
+                    [postStatus]="[checkBaiVietMoi(baiViet.createdDate) ? 'BAI_VIET_MOI' : '']"
+                    [postCoverFileId]="baiViet.fileAnhBia" [postTime]="baiViet.createdDate">
+                  </app-card-template>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,99 @@
+<div id="sj-content" class="sj-content sj-addarticleholdcontent sj-addarticleholdvtwo">
+  <div class="sj-dashboardboxtitle sj-titlewithform">
+    <h2 class="w-100 text-center">{{langData[langCode].DANG_NHAP}}</h2>
+    <!-- Toolbar here -->
+  </div>
+  <div class="sj-manageallsession form-on-page">
+    <form nz-form [formGroup]="form" class="center-form">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="userIcon" [ngClass]="displayFieldCss(form, 'username')"
+            [nzTooltipTitle]="langData[langCode].TEN_DANG_NHAP" nzTooltipPlacement="left" nz-tooltip>
+            <input type="text" class="nz-form-input" nz-input formControlName="username" nzSize="large"
+              [attr.placeholder]="langData[langCode].TEN_DANG_NHAP" (keyup.enter)="onLoginWithForm()" />
+            <ng-template #userIcon>
+              <i class="fas fa-user prefix-icon"></i>
+            </ng-template>
+          </nz-input-group>
+          <ng-container *ngIf="isFieldValid(form, 'username')">
+            <small *ngIf="form.get('username').errors.required" class="text-red">
+              {{ langData[langCode].CHUA_NHAP_TEN_DANG_NHAP}} <br />
+            </small>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group [nzPrefix]="passIcon" [nzSuffix]="showPassButtonLogin"
+            [nzTooltipTitle]="langData[langCode].MAT_KHAU" nzTooltipPlacement="left" nz-tooltip
+            [ngClass]="displayFieldCss(form, 'password')">
+            <input [attr.type]="showPassLogin ? 'text' : 'password'" class="nz-form-input" nz-input
+              formControlName="password" [attr.placeholder]="langData[langCode].MAT_KHAU" nzSize="large"
+              (keyup.enter)="onLoginWithForm()" />
+            <ng-template #passIcon>
+              <i class="fas fa-lock prefix-icon"></i>
+            </ng-template>
+            <ng-template #showPassButtonLogin>
+              <i (click)="toggleShowPassLogin()" class="fas fa-eye append-icon"
+                [ngClass]="showPassLogin ? 'fas fa-eye-slash append-icon' : 'fas fa-eye append-icon'"></i>
+            </ng-template>
+          </nz-input-group>
+          <ng-container *ngIf="isFieldValid(form, 'password')">
+            <small *ngIf="form.get('password').errors.required" class="text-red">
+              {{ langData[langCode].CHUA_NHAP_MAT_KHAU}} <br />
+            </small>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group class="fixed-nz-input-group" [nzPrefix]="permIcon"
+            [nzTooltipTitle]="langData[langCode].QUYEN_HE_THONG" nzTooltipPlacement="left" nz-tooltip>
+            <nz-select nzAllowClear="false" nzBorderless nzShowSearch (ngModelChange)="savingChangedRole($event)"
+              [nzPlaceHolder]="langData[langCode].QUYEN_HE_THONG" [(ngModel)]="selectedRoleId"
+              [ngModelOptions]="{standalone: true}">
+              <nz-option *ngFor="let role of listRoles" [nzLabel]="role.title[langCode]" [nzValue]="role.id">
+              </nz-option>
+            </nz-select>
+            <ng-template #permIcon>
+              <i class="fas fa-user-shield prefix-icon"></i>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <div nz-row>
+        <div nz-col [nzSpan]="12">
+          <label nz-checkbox formControlName="remember">
+            <span>{{ langData[langCode].GHI_NHO_DANG_NHAP}}</span>
+          </label>
+        </div>
+        <div class="text-right" nz-col [nzSpan]="12">
+          <a>{{ langData[langCode].QUEN_MAT_KHAU}}</a>
+        </div>
+      </div>
+      <div nz-row nzJustify="center" class="mr-top-10">
+        <div nz-col [nzSpan]="24" class="text-center">
+          <button nz-button type="button" class="pointer" *ngIf="['ROLE_GIANG_VIEN', 'ROLE_SINH_VIEN'].includes(selectedRoleId)"
+          [nzType]="'default'" nzSize="large" nz-tooltip
+          [nzTooltipTitle]="langData[langCode].QUYEN_HAN_KHONG_HO_TRO_DANG_NHAP_FORM" nzTooltipPlacement="bottom">
+          <span>{{ langData[langCode].DANG_NHAP}}</span></button>
+          <button nz-button type="button" class="pointer" *ngIf="!['ROLE_GIANG_VIEN', 'ROLE_SINH_VIEN'].includes(selectedRoleId)"
+          [nzType]="'primary'" nzSize="large" (click)="onLoginWithForm()">
+          <span>{{ langData[langCode].DANG_NHAP}}</span></button>
+        </div>
+      </div>
+      <div nz-row nzJustify="center">
+        <nz-divider nzDashed [nzText]="text">
+          <ng-template #text><span>{{langData[langCode].HOAC}}</span></ng-template>
+        </nz-divider>
+        <div nz-col [nzSpan]="24" class="text-center">
+          <small class="text-red">{{langData[langCode].LUU_Y_DANG_NHAP_GOOGLE}}</small>
+          <button class="nz-btn-red mr-top-10" nz-button nzSize="large" (click)="onLoginWithGoogle()" type="button">
+            <i class="fab fa-google mr-right-10"></i>
+            <span>{{ langData[langCode].DANG_NHAP_GOOGLE}}</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

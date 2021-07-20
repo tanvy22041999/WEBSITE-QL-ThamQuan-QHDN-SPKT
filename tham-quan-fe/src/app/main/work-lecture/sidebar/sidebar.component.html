@@ -1,0 +1,49 @@
+<aside id="sj-asidebar" class="sj-asidebar sj-widgetbox">
+  <div class="sj-widgetprofile">
+    <div class="sj-widgetcontent">
+      <figure>
+        <img class="avatar-size" [attr.src]="isLogin ? userAvatarLink : 'assets/img/logo/ute_logo_c.png'"
+          onerror="this.src='assets/img/logo/ute_logo_c.png'">
+      </figure>
+      <div class="sj-admininfo">
+        <h3>{{userName}}</h3>
+        <h4>{{langData[langCode].GIANG_VIEN}}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="sj-widgetdashboard">
+    <nav id="sj-dashboardnav" class="sj-dashboardnav">
+      <ul class="no-padding">
+        <li [ngClass]="activatedLink === 'tour' ? 'active-menu': ''"><a href="javascript:void(0)"
+            [routerLink]="['/', 'work-lecture', 'tour']"><i class="fab fa-readme"></i>
+            <span>{{langData[langCode].DANG_KY_THAM_QUAN}}</span></a>
+        </li>
+        <!-- <li *ngIf="checkTimeLineStudentSuggestion"
+          [ngClass]="activatedLink === 'project-suggestion-student' ? 'active-menu': ''"><a href="javascript:void(0)"
+            [routerLink]="['/', 'work-student', 'project-suggestion-student']"><i class="fab fa-readme"></i>
+            <span>{{langData[langCode].DE_XUAT_DE_TAI}}</span></a>
+        </li>
+
+        <li class="hide-menu" *ngIf="!checkTimeLineStudentSuggestion" nz-tooltip nzTooltipPlacement="right"
+          [nzTooltipTitle]="langData[langCode].CHUA_DEN_DOT_DE_XUAT_DE_TAI"><a href="javascript:void(0)">
+            <i class="fab fa-readme"></i>
+            <span class="hide-menu">{{langData[langCode].DE_XUAT_DE_TAI}}</span></a>
+        </li>
+
+        <li *ngIf="checkTimeLineStudentRegistration"
+          [ngClass]="activatedLink === 'project-registration' ? 'active-menu': ''">
+          <a href="javascript:void(0)" [routerLink]="['/', 'work-student', 'project-registration']"><i
+              class="fas fa-user-plus"></i>
+            <span>{{langData[langCode].DANG_KY_DE_TAI}}<br></span></a>
+        </li>
+
+        <li class="hide-menu" *ngIf="!checkTimeLineStudentRegistration" nz-tooltip nzTooltipPlacement="right"
+          [nzTooltipTitle]="langData[langCode].CHUA_DEN_DOT_DANG_KY_DE_TAI">
+          <a href="javascript:void(0)"><i class="fas fa-user-plus"></i>
+            <span class="hide-menu">{{langData[langCode].DANG_KY_DE_TAI}}<br></span></a>
+        </li> -->
+
+      </ul>
+    </nav>
+  </div>
+</aside>

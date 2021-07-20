@@ -1,0 +1,81 @@
+// Maybe need re-config
+.uploading-icon {
+  width: 20px;
+  height: 20px;
+}
+// END
+
+.file-upload-container {
+  overflow: hidden;
+
+  .list-file {
+    text-align: left;
+    padding-top: 15px;
+  }
+
+  .dropzone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 200;
+    border: 1px dashed #d9d9d9;
+    background: white;
+    padding: 2px;
+
+    // &:hover {
+    //   border-color: #409eff;
+    // }
+
+    &.hovering {
+      color: #dadada !important;
+    }
+
+    .file-label {
+      font-size: 12px;
+      border: 1px solid #2e3192;
+      color: #2e3192;
+      border-radius: none;
+      padding: 4px 6px;
+      margin-bottom: 0;
+      cursor: pointer;
+
+      &:hover {
+        background: #2e3192;
+        border: 1px solid #2e3192;
+        color: #fff;
+      }
+
+      .file-cta {
+        .file-label-sub {
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+
+  .file-input {
+    display: none !important;
+  }
+}
+
+.file-label-sub {
+  color: #2e3192 !important;
+}
+
+.file-icon {
+  color: #2e3192 !important;
+}
+
+.file-upload-container .dropzone .file-label:hover {
+  background: #2e31921a;
+  border: 1px solid #2e3192;
+  color: #ece6e6 !important;
+}
+
+td {
+  padding: 0 !important;
+}
+td.icon-col {
+  width: 32px;
+}

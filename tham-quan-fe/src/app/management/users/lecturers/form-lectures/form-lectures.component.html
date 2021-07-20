@@ -1,0 +1,184 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].HO_VA_TEN }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'hoTen')">
+      <input nz-input type="text" class="form-control" [placeholder]="langData[langCode].ENTER_YOUR_NAME"
+        formControlName="hoTen" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'hoTen')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label><span>{{ langData[langCode].GENDER }} </span><label class="field-required">*</label></label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'gioiTinh')">
+      <nz-select class="w-100" formControlName="gioiTinh" nzAllowClear="false"
+        [nzPlaceHolder]="langData[langCode].CHOOSE_GENDER">
+        <nz-option [nzValue]="true" [nzLabel]="langData[langCode].MALE"></nz-option>
+        <nz-option [nzValue]="false" [nzLabel]="langData[langCode].FEMALE"></nz-option>
+      </nz-select>
+      <app-field-error-display [displayError]="isFieldValid(form, 'gioiTinh')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label><span>Email</span><span class="text-danger">*</span></label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'email')">
+      <input nz-input type="email" class="form-control" [placeholder]="langData[langCode].ENTER_YOUR_EMAIL"
+        formControlName="email" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'email')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+      <app-field-error-display [displayError]="isFieldValid(form, 'email', 'email')"
+        [errorMsg]="langData[langCode].EMAIL_NOT_CORRECT">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].SDT }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dienThoai')">
+      <input nz-input type="tel" class="form-control" [placeholder]="langData[langCode].ENTER_YOUR_PHONE"
+        formControlName="dienThoai" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'dienThoai')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+      <app-field-error-display [displayError]="isFieldValid(form, 'dienThoai', 'invalidPhoneNumber')"
+        [errorMsg]="langData[langCode].PHONE_NOT_CORRECT">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].HOC_HAM }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'hocHam')">
+      <nz-select class="w-100" nzShowSearch nzServerSearch [nzPlaceHolder]="langData[langCode].CHON_HOC_HAM"
+        (nzOnSearch)="searchHocHamValueChanged.next($event)" formControlName="hocHam">
+        <nz-option *ngFor="let hocHam of listHocHam.data"
+          [nzLabel]="langCode === 'vi' ? hocHam.tenHocHam : hocHam.tenHocHamEn" [nzValue]="hocHam.id">
+        </nz-option>
+      </nz-select>
+      <app-field-error-display [displayError]="isFieldValid(form, 'hocHam')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].HOC_VI }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'hocVi')">
+      <nz-select class="w-100" nzShowSearch nzServerSearch [nzPlaceHolder]="langData[langCode].CHON_HOC_VI"
+        (nzOnSearch)="searchHocViValueChanged.next($event)" formControlName="hocVi">
+        <nz-option *ngFor="let hocVi of listHocVi.data"
+          [nzLabel]="langCode === 'vi' ? hocVi.tenHocVi : hocVi.tenHocViEn" [nzValue]="hocVi.id">
+        </nz-option>
+      </nz-select>
+      <app-field-error-display [displayError]="isFieldValid(form, 'hocVi')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].KHOA }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'khoa')">
+      <nz-select class="w-100" nzShowSearch nzServerSearch [nzPlaceHolder]="langData[langCode].CHON_KHOA"
+        (nzOnSearch)="searchKhoaValueChanged.next($event)" formControlName="khoa" (ngModelChange)="getAllNganh($event)">
+        <nz-option *ngFor="let khoa of listKhoa.data" [nzLabel]="langCode === 'vi' ? khoa.tenKhoa : khoa.tenKhoaEn"
+          [nzValue]="khoa.id">
+        </nz-option>
+      </nz-select>
+      <app-field-error-display [displayError]="isFieldValid(form, 'khoa')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].LINH_VUC }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'linhVucs')">
+      <nz-select class="w-100" nzShowSearch nzServerSearch nzMode="multiple"
+        [nzPlaceHolder]="langData[langCode].CHON_LINH_VUC" (nzOnSearch)="searchLinhVucValueChanged.next($event)"
+        formControlName="linhVucs">
+        <nz-option *ngFor="let linhVuc of listLinhVuc.data" [nzLabel]="
+            langCode === 'vi' ? linhVuc.tenLinhVuc : linhVuc.tenLinhVucEn
+          " [nzValue]="linhVuc.id">
+        </nz-option>
+      </nz-select>
+      <app-field-error-display [displayError]="isFieldValid(form, 'linhVucs')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].LECTURERS_ID }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'maGiangVien')">
+      <input nz-input type="text" class="form-control" [placeholder]="langData[langCode].ENTER_LECTURERS_ID"
+        formControlName="maGiangVien" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'maGiangVien')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].NGANH }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'nganh')">
+      <nz-select class="w-100" nzShowSearch [nzPlaceHolder]="langData[langCode].CHON_NGANH" formControlName="nganh">
+        <nz-option *ngFor="let nganh of listNganh.data"
+          [nzLabel]="langCode === 'vi' ? nganh.tenNganh : nganh.tenNganhEn" [nzValue]="nganh.id">
+        </nz-option>
+      </nz-select>
+      <app-field-error-display [displayError]="isFieldValid(form, 'nganh')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thinhGiang')">
+      <label nz-checkbox formControlName="thinhGiang">{{
+        langData[langCode].THINH_GIANG
+        }}</label>
+    </div>
+  </div>
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()">
+          <i class="fas fa-times mr-right-5"></i>{{ langData[langCode].HUY }}
+        </button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()">
+          <i class="fas fa-save mr-right-5"></i>{{ langData[langCode].LUU }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,68 @@
+<hr>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listChuyenThamQuan" [nzScroll]="{x: '900px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].TEN_CHUYEN_THAM_QUAN}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].DIA_DIEM_DON}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].DOANH_NGHIEP}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].DIA_DIEM_DEN}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].THOI_GIAN_DU_KIEN}}</th>
+
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].THONG_TIN}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].DANG_KY_THAM_QUAN}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let chuyen of listChuyenThamQuan; let i = index">
+      <td nzAlign="center">
+        {{ i + 1 }}
+      </td>
+      <td nzAlign="center">
+        {{ chuyen.tenChuyenThamQuan }}
+      </td>
+      <td nzAlign="center">
+        {{chuyen.diaDiemKhoiHanh?.tenDiaDiem}}
+
+      </td>
+      <td nzAlign="center">
+        {{ chuyen.doanhNghiep?.congTy }}
+      </td>
+      <td nzAlign="center">
+        {{ chuyen.doanhNghiep?.diaChi }}
+      </td>
+      <td nzAlign="center">
+        {{ chuyen.thoiGianBatDauThamQuan | date: 'hh:mm dd/MM/yyyy'}} - {{chuyen.thoiGianKetThucThamQuan | date:
+        'hh:mm dd/MM/yyyy'}}
+      </td>
+      <td nzAlign="center">
+        <button nz-button nzType="primary" type="button" nzSize="default" class="nz-btn-blue"
+          (click)="openModal(formModal, chuyen)"><i class="fas fa-bookmark  mr-right-5"></i>
+          {{ langData[langCode].THONG_TIN}}</button>
+      </td>
+      <td nzAlign="center">
+        <p hidden> {{checkTrangThai(chuyen)}}</p>
+        <button nz-button nzType="primary" type="button" nzSize="default" (click)="congTacVienDangKy(chuyen.id, false)"
+          *ngIf="!isRegistered "><i class="fas fa-edit mr-right-5"></i>{{langData[langCode].DANG_KY}}</button>
+
+        <button nz-button nzType="primary" type="button" nzSize="default" (click)="congTacVienDangKy(chuyen.id, true)"
+          *ngIf="isRegistered && currentUser?.trangThai === null"><i
+            class="fas fa-edit mr-right-5"></i>{{langData[langCode].DA_DANG_KY}}</button>
+
+        <button nz-button nzType="primary" type="button" nzSize="default" *ngIf="currentUser?.trangThai !== null"
+          class="nz-btn-green" [ngClass]=" currentUser?.trangThai ? 'nz-btn-green' : 'nz-btn-red' "><i
+            class="fas fa-check-square mr-right-5"></i>{{currentUser.trangThai ?
+          langData[langCode].DA_DUYET :
+          langData[langCode].KHONG_DUYET}}</button>
+
+        <!-- <button nz-button nzType="primary" type="button" nzSize="default" *ngIf="isRegistered" class="nz-btn-red"><i
+            class="fas fa-check-square mr-right-5"></i>{{langData[langCode].HUY_DANG_KY}}</button> -->
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<ng-template #formModal>
+  <app-form-tour-guide [modalData]="modalData" (closeModal)="closeModal()"></app-form-tour-guide>
+</ng-template>

@@ -1,0 +1,20 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}} </span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    {{langData[langCode].TRANG_THAI_CHUYEN_THAM_QUAN}}:
+    <nz-select [(ngModel)]="selectedTrangThaiChuyenThamQuan" nzPlaceHolder="langData[langCode].TRANG_THAI_CHUYEN_THAM_QUAN"
+      nzAllowClear="false" class="trang-thai-box text-center" (ngModelChange)="onChangeTrangThaiChuyenThamQuan()">
+      <nz-option *ngFor="let item of listTrangThaiChuyenThamQuan" [nzLabel]="item.title[langCode]" [nzValue]="item.id">
+      </nz-option>
+    </nz-select>
+  </div>
+</div>
+<hr>
+<full-calendar #calendarEl [options]="calendarOptions"></full-calendar>
+
+<ng-template #formModal>
+  <app-form-tour-details [modalData]="modalData" (closeModal)="closeModal()"></app-form-tour-details>
+</ng-template>

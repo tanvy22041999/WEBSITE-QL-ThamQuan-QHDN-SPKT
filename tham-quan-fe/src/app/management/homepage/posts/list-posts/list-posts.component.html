@@ -1,0 +1,73 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="getAllPaging()" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="getAllPaging()"><i class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+    <button nz-button class="nz-btn-green" (click)="openModal(formModal)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  </div>
+</div>
+<hr>
+<div nz-row class="mr-bot-10">
+  <div nz-col nzSpan="24">
+    {{langData[langCode].CHON_CHUYEN_MUC}}:
+    <nz-select class="search-box" nzServerSearch nzShowSearch nzAllowClear
+      [nzPlaceHolder]="langData[langCode].TAT_CA_CHUYEN_MUC" [(ngModel)]="selectedChuyenMuc"
+      (ngModelChange)="getAllPaging()">
+      <nz-option *ngFor="let loaiBaiViet of langDataLoaiBaiViet[langCode]" [nzLabel]="loaiBaiViet.title"
+        [nzValue]="loaiBaiViet.id">
+      </nz-option>
+    </nz-select>
+  </div>
+</div>
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzData]="listBaiViet.data" [nzScroll]="{x: selectedChuyenMuc ? '550px' : '700px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="100px" *ngIf="!selectedChuyenMuc">{{langData[langCode].LOAI_BAI_VIET}}</th>
+      <th nzAlign="center" nzWidth="300px">{{langData[langCode].TEN_BAI_VIET}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].TRANG_THAI}}</th>
+      <th nzAlign="center" nzWidth="50px"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let baiViet of listBaiViet.data; let i = index">
+      <td nzAlign="center">
+        {{ i + 1 + (listBaiViet.currentPage-1) * listBaiViet.limit}}
+      </td>
+      <td nzAlign="center" *ngIf="!selectedChuyenMuc">
+        <nz-tag nzColor="processing" class="mr-right-0">
+          {{ langDataLoaiBaiViet.langData[langCode][baiViet.loaiBaiViet] }}
+        </nz-tag>
+      </td>
+      <td nzAlign="left">
+        {{ baiViet.tieuDe }}
+      </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="success" class="pointer mr-right-0" *ngIf="baiViet.trangThai"
+          (click)="changeStatus(baiViet.id)">{{langData[langCode].KICH_HOAT}}</nz-tag>
+        <nz-tag nzColor="error" class="pointer mr-right-0" *ngIf="!baiViet.trangThai"
+          (click)="changeStatus(baiViet.id)">{{langData[langCode].KHONG_KICH_HOAT}}</nz-tag>
+      </td>
+      <td nzAlign="center">
+        <button nz-button nzType="primary" type="button" nzSize="small" (click)="openModal(formModal, baiViet)"><i
+            class="fas fa-edit"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+<app-table-paginate [pageConfig]="listBaiViet" (pageChange)="pageChange($event)"></app-table-paginate>
+
+<ng-template #formModal>
+  <app-form-posts [modalData]="modalData" [couterSoThuTu]="listBaiViet.totalItem+1"
+    [selectedLoaiBaiViet]="selectedChuyenMuc" (closeModal)="closeModal($event)"></app-form-posts>
+</ng-template>

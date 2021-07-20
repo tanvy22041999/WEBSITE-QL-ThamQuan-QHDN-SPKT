@@ -1,0 +1,44 @@
+// {
+//   xs: '575px',
+//   sm: '576px',
+//   md: '768px',
+//   lg: '992px',
+//   xl: '1200px', // current sider nzBreakpoint
+//   xxl: '1600px'
+// }
+
+@media only screen and (max-width: 375px) {
+  .hide-xxs {
+    display: none;
+  }
+}
+@media only screen and (min-width: 376px) and (max-width: 575px) {
+  .hide-xs {
+    display: none;
+  }
+}
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+  .hide-sm {
+    display: none;
+  }
+}
+@media only screen and (min-width: 769px) and (max-width: 992px) {
+  .hide-md {
+    display: none;
+  }
+}
+@media only screen and (min-width: 993px) and (max-width: 1200px) {
+  .hide-lg {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1201px) and (max-width: 1600px) {
+  .hide-xl {
+    display: none;
+  }
+}
+@media only screen and (min-width: 1601px) {
+  .hide-xxl {
+    display: none;
+  }
+}

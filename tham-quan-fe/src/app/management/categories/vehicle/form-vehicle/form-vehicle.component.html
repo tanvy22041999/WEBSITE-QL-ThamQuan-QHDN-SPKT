@@ -1,0 +1,98 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <!-- Số thứ tự -->
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].SO_THU_TU }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'soThuTu')">
+      <input nz-input type="number" formControlName="soThuTu"/>
+      <app-field-error-display [displayError]="isFieldValid(form, 'soThuTu')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+  <!-- Tên xe -->
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{ langData[langCode].TEN_XE }}</label><label class="field-required">*</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenXe')">
+      <input nz-input formControlName="tenXe" />
+      <app-field-error-display [displayError]="isFieldValid(form, 'tenXe')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+  <!-- Biển số + màu xe -->
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="11">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].BIEN_SO }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'bienSo')">
+        <input nz-input class="w-100" formControlName="bienSo" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'bienSo')"
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-col nzOffset="2" nzSpan="11">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].MAU_XE }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'mauXe')">
+        <input nz-input type="text" [(colorPicker)]="color" [style.background]="color"
+        (colorPickerClose)="onColorChange($event)" [value]="color" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'mauXe') "
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="11">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].SO_CHO_NGOI }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'soChoNgoi')">
+        <input nz-input class="w-100" type="number" min="2" formControlName="soChoNgoi" />
+        <app-field-error-display [displayError]="isFieldValid(form, 'soChoNgoi') "
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+    <div nz-col nzOffset="2" nzSpan="11">
+      <div nz-col nzSpan="24">
+        <label>{{ langData[langCode].TRANG_THAI }}</label><label class="field-required">*</label>
+      </div>
+      <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'trangThai')">
+        <nz-select class="w-100" formControlName="trangThai">
+          <nz-option [nzValue]="true" [nzLabel]="langData[langCode].KICH_HOAT"></nz-option>
+          <nz-option [nzValue]="false" [nzLabel]="langData[langCode].KHONG_KICH_HOAT"></nz-option>
+        </nz-select>
+        <app-field-error-display [displayError]="isFieldValid(form, 'trangThai') "
+          [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+        </app-field-error-display>
+      </div>
+    </div>
+
+  </div>
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()">
+          <i class="fas fa-times mr-right-5"></i>{{ langData[langCode].HUY }}
+        </button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()">
+          <i class="fas fa-save mr-right-5"></i>{{ langData[langCode].LUU }}
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

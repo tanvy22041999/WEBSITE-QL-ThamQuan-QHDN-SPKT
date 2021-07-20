@@ -1,0 +1,40 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <span class="search-text-beside-box mr-right-5">{{langData[langCode].CAI_DAT_CHIEU_CAO}}</span>
+    <nz-input-group nzSearch [nzAddOnAfter]="checkIcon" class="setting-height-box mr-right-5">
+       <input type="number" min="100" max="999" nz-input [placeholder]="langData[langCode].CAI_DAT_CHIEU_CAO" [(ngModel)]="settingHeight"
+        (keyup.enter)="setupChartsHeight()" />
+      <ng-template #checkIcon>
+        <button nz-button nzType="primary" nzSearch (click)="setupChartsHeight()"><i
+            class="fas fa-check"></i></button>
+      </ng-template>
+    </nz-input-group>
+  </div>
+</div>
+<hr>
+
+<div nz-row class="charts-section hidden-of-charts" #chartSection>
+  <div nz-col nzSpan="24">
+    <label>{{langData[langCode].THONG_KE_CHUYEN_THAM_QUAN_THEO_MOC_THOI_GIAN}}</label>
+  </div>
+  <div nz-col nzSpan="24">
+    <app-count-travel [view]="view"></app-count-travel>
+  </div>
+  <div nz-col nzSpan="24" class="hr-line"><hr></div>
+</div>
+
+<hr>
+
+<div nz-row>
+  <div nz-col nzSpan="24">
+    <label>{{langData[langCode].THONG_KE_THEO_CAU_TRA_LOI}}</label>
+  </div>
+  <div nz-col nzSpan="24">
+    <app-count-answer [view]="view"></app-count-answer>
+  </div>
+  <div nz-col nzSpan="24" class="hr-line"><hr></div>
+</div>

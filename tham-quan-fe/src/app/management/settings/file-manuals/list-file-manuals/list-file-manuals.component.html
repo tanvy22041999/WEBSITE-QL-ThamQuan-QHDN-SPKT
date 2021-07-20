@@ -1,0 +1,53 @@
+<app-breadcrumb [breadcrumb]="breadcrumbObj"></app-breadcrumb>
+<div nz-row>
+  <div nz-col nzSpan="12">
+    <span class="text-title">{{breadcrumbObj.heading}}</span>
+  </div>
+  <div nz-col nzSpan="12" class="text-right">
+    <nz-input-group nzSearch [nzAddOnAfter]="searchIcon" class="search-box mr-right-5">
+      <input type="text" nz-input [placeholder]="langData[langCode].TIM_KIEM" [(ngModel)]="searchValue"
+        (keyup.enter)="getDataPaging()" />
+      <ng-template #searchIcon>
+        <button nz-button nzType="primary" nzSearch (click)="getDataPaging()"><i class="fas fa-search"></i></button>
+      </ng-template>
+    </nz-input-group>
+    <button nz-button class="nz-btn-green" (click)="openModal(formFile)">
+      <i class="fas fa-plus mr-right-5"></i>{{langData[langCode].THEM}}</button>
+  </div>
+</div>
+<hr>
+
+
+<nz-table #table class="table-border table-cell-middle table-margin-bot" nzSize="middle" nzShowPagination="false"
+  [nzScroll]="{x: '500px'}">
+  <thead>
+    <tr>
+      <th nzAlign="center" nzWidth="50px">{{langData[langCode].SO_THU_TU}}</th>
+      <th nzAlign="center" nzWidth="150px">{{langData[langCode].TITLE}}</th>
+      <th nzAlign="center" nzWidth="100px">{{langData[langCode].TRANG_THAI}}</th>
+      <th nzAlign="center" nzWidth="100px"><i class="fas fa-cog"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let file of listFileManuals.data; let i= index">
+      <td nzAlign="center"> {{ i + 1 + (listFileManuals.currentPage-1) * listFileManuals.limit}}</td>
+      <td nzAlign="center"> {{file.tieuDe}} </td>
+      <td nzAlign="center">
+        <nz-tag nzColor="success" class="pointer" *ngIf="file.trangThai" (click)="changeStatus(file.id)">
+          {{langData[langCode].KICH_HOAT}}</nz-tag>
+        <nz-tag nzColor="error" class="pointer" *ngIf="!file.trangThai" (click)="changeStatus(file.id)">
+          {{langData[langCode].KHONG_KICH_HOAT}}</nz-tag>
+      </td>
+      <td nzAlign="center">
+        <button nz-button nzType="primary" type="button" nzSize="small" (click)="openModal(formFile, file)"><i
+            class="fas fa-edit"></i></button>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<app-table-paginate [pageConfig]="listFileManuals" (pageChange)="pageChange($event)"></app-table-paginate>
+
+<ng-template #formFile>
+  <app-form-file-manuals [modalData]="modalData" (closeModal)="closeModal($event)"></app-form-file-manuals>
+</ng-template>

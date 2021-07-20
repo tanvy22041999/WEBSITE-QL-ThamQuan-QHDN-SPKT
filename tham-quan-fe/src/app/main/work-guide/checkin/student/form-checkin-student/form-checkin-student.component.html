@@ -1,0 +1,61 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="11"><label>{{ langData[langCode].QUET_QRCODE }}</label></div>
+    <div nz-col nzSpan="11">
+      <nz-select [nzPlaceHolder]="langData[langCode].QUET_QRCODE" [(ngModel)]="isQrCode"
+        [ngModelOptions]="{standalone: true}" class="d-block">
+        <nz-option [nzLabel]="langData[langCode].CO" [nzValue]="true"></nz-option>
+        <nz-option [nzLabel]="langData[langCode].KHONG" [nzValue]="false"></nz-option>
+      </nz-select>
+    </div>
+  </div>
+  <div nz-row class="pad-bot-form" *ngIf="isQrCode">
+    <div nz-col nzSpan="24">
+      <div style="width: auto;" *ngIf="isQrCode">
+        <barcode-scanner-livestream type="code_39" (valueChanges)="onValueChanges($event)"
+          (started)="onStarted($event)">
+        </barcode-scanner-livestream>
+      </div>
+      <div [hidden]="!barcodeValue">
+        {{ barcodeValue }}
+      </div>
+      <div nz-row class="ant-modal-footer fk-modal-footer">
+        <div nz-col nzSpan="24" class="ali-right">
+          <div class="pad-left-form-control" style="display: inline-block;">
+            <button nz-button nzType="primary" type="button" nzSize="default" (click)="showScanner = true"
+              class="mr-bot-10">Scan other</button>
+          </div>
+          <div class="pad-left-form-control" style="display: inline-block;">
+            <button nz-button nzType="primary" type="button" nzSize="default" (click)="diemDanh(barcodeValue)"><i
+                class="fas fa-edit mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div nz-row class="pad-bot-form" *ngIf="!isQrCode">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].MSSV}}</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'mssv')">
+      <input nz-input formControlName="mssv">
+      <app-field-error-display [displayError]="isFieldValid(form, 'mssv')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+    <br>
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control mr-top-10 d-flex justify-content-end">
+        <button nz-button nzType="primary" type="button" nzSize="default"
+          (click)="diemDanh(form.get('mssv').value.toString())"><i
+            class="fas fa-edit mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button>
+      </div>
+    </div>
+
+    <!-- <button nz-button nzType="primary" type="button" nzSize="small" (click)="diemDanh(mssv)" class="mr-top-10"><i
+        class="fas fa-edit mr-right-5"></i>{{langData[langCode].DIEM_DANH}}</button> -->
+  </div>
+
+
+</form>

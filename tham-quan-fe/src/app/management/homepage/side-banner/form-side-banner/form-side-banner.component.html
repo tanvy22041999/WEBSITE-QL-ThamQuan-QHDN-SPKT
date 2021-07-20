@@ -1,0 +1,91 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].THU_TU}}</label><label class="field-required"></label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thuTu')">
+      <input nz-input formControlName="thuTu" type="number">
+      <app-field-error-display [displayError]="isFieldValid(form, 'thuTu')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+      <app-field-error-display [displayError]="isFieldValid(form, 'thuTu', 'min')"
+        [errorMsg]="langData[langCode].THU_TU_LON_HON_0">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].TIEU_DE}}</label><label class="field-required"></label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tieuDe')">
+      <input nz-input formControlName="tieuDe" type="text">
+      <app-field-error-display [displayError]="isFieldValid(form, 'tieuDe')"
+        [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].LIEN_KET_NGOAI}}</label>
+    </div>
+    <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'lienKetNgoai')">
+      <input nz-input formControlName="lienKetNgoai" type="text">
+      <app-field-error-display [displayError]="isFieldValid(form, 'lienKetNgoai', 'invalidUrl')"
+        [errorMsg]="langData[langCode].LIEN_KET_KHONG_DUNG_DINH_DANG">
+      </app-field-error-display>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].CHON_ANH_BANNER}} <i>{{this.modalData.action === 'edit' ?
+          langData[langCode].CHON_ANH_MOI : ''}}</i></label><label class="field-required"></label>
+    </div>
+    <div nz-col nzSpan="24">
+      <input type="file" (change)="fileChangeEvent($event)" accept=".jpg,.jpeg,.png" />
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form" *ngIf="isSelectedFile">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].CAT_ANH_BANNER}}</label><label class="field-required"></label>
+    </div>
+    <div nz-col nzSpan="24" *ngIf="errLowQualityPicInput">
+      <small class="text-red">{{langData[langCode].CANH_BAO_ANH_CHAT_LUONG_THAP}}</small>
+    </div>
+    <div nz-col nzSpan="24" *ngIf="errMaxQualityPicInput">
+      <small class="text-red">{{langData[langCode].CANH_BAO_ANH_CHAT_LUONG_CAO}}</small>
+    </div>
+    <div nz-col nzSpan="24">
+      <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [maintainAspectRatio]="false"
+        format="jpeg" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded($event)" [resizeToWidth]="300"
+        [imageQuality]="100" (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+    </div>
+  </div>
+
+  <div nz-row class="pad-bot-form" *ngIf="isSelectedFile || modalData.action === 'edit'">
+    <div nz-col nzSpan="24">
+      <label>{{langData[langCode].BANNER_HIEN_THI}}</label>
+    </div>
+    <div nz-col nzSpan="24">
+      <span *ngIf="!croppedImage"><i>{{langData[langCode].DANG_TAI}}</i></span>
+      <img [src]="croppedImage" class="w-100" />
+    </div>
+  </div>
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()"><i
+            class="fas fa-times mr-right-5"></i>{{langData[langCode].HUY}}</button>
+      </div>
+      <div class="pad-left-form-control" style="display: inline-block;">
+        <button nz-button nzType="primary" nzSize="default" type="button" (click)="onSubmit()"><i
+            class="fas fa-save mr-right-5"></i>{{langData[langCode].LUU}}</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,16 @@
+<nz-card class="w-100 shadow-box mr-bot-15" [nzCover]="coverImage" [nzActions]="[postTime, viewButton]">
+  <nz-card-meta [nzTitle]="titleTag" [nzDescription]="postTitle"></nz-card-meta>
+</nz-card>
+<ng-template #titleTag>
+  <nz-tag class="text-uppercase" nzColor="red" *ngIf="postStatus.includes(listPostStatusType.NEW)">{{langData[langCode].BAI_VIET_MOI}}</nz-tag>
+  <nz-tag class="text-uppercase" nzColor="processing" *ngIf="postStatus.includes(listPostStatusType.THONG_BAO)">{{langData[langCode].THONG_BAO}}</nz-tag>
+</ng-template>
+<ng-template #coverImage>
+  <img [src]="safeResourceUrl" onerror="this.src='assets/img/bg/default-cover.jpg'" />
+</ng-template>
+<ng-template #viewButton>
+  <span class="text-blue" [routerLink]="['/posts', postType]" [queryParams]="{id: postId}">{{langData[langCode].XEM_THEM}} &gt;</span>
+</ng-template>
+<ng-template #postTime>
+  <i class="fas fa-clock mr-right-5"></i>{{formattedPostTime | date: 'dd/MM/yyyy'}}
+</ng-template>

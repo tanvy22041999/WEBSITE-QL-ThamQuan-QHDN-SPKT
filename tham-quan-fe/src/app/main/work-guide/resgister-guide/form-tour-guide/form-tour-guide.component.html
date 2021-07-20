@@ -1,0 +1,257 @@
+<form [formGroup]="form" (keydown.enter)="$event.preventDefault()">
+
+  <div nz-row class="pad-bot-form">
+    <div nz-col nzSpan="12">
+      <!-- Ten -->
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].TEN_CHUYEN_THAM_QUAN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'tenChuyenThamQuan')">
+          <input nz-input formControlName="tenChuyenThamQuan" readonly />
+          <app-field-error-display [displayError]="isFieldValid(form, 'tenChuyenThamQuan')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+      <!-- Noi dung-->
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].NOI_DUNG_THAM_QUAN}}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'noiDungThamQuan')">
+          <textarea nz-input formControlName="noiDungThamQuan" [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+            readonly></textarea>
+          <app-field-error-display [displayError]="isFieldValid(form, 'noiDungThamQuan')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+      <!-- Dia Diem -->
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].DIA_DIEM_KHOI_HANH }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'diaDiemKhoiHanh')">
+          <nz-select class="w-100" nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_DIA_DIEM"
+            formControlName="diaDiemKhoiHanh" [nzDisabled]="true">
+            <nz-option *ngFor="let data of listDiaDiem" [nzLabel]="data.tenDiaDiem" [nzValue]="data.id">
+            </nz-option>
+          </nz-select>
+          <app-field-error-display [displayError]="isFieldValid(form, 'diaDiemKhoiHanh')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <!-- CTV
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].CONG_TAC_VIEN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'congTacViens')">
+          <nz-select nzMode="multiple" class="w-100" nzShowSearch nzAllowClear
+            (nzOnSearch)="searchCongTacVienChange.next($event)" [nzPlaceHolder]="langData[langCode].CHON_CONG_TAC_VIEN"
+            formControlName="congTacViens">
+            <nz-option *ngFor="let data of listCongTacVien" [nzLabel]="data.hoTen" [nzValue]="data.id">
+            </nz-option>
+          </nz-select>
+          <app-field-error-display [displayError]="isFieldValid(form, 'congTacViens')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div> -->
+
+      <!-- Phu Cap -->
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].PHU_CAP_CONG_TAC_VIEN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'phuCapCongTacVien')">
+          <input nz-input formControlName="phuCapCongTacVien" readonly />
+          <app-field-error-display [displayError]="isFieldValid(form, 'phuCapCongTacVien')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <!-- Kinh phi -->
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].KINH_PHI }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'kinhPhi')">
+          <input nz-input formControlName="kinhPhi" readonly />
+          <app-field-error-display [displayError]="isFieldValid(form, 'kinhPhi')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+      <!-- Thue xe -->
+      <div nz-row class="pad-bot-form">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].THUE_XE_NGOAI_TRUONG }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thueXeNgoaiTruong')">
+          <nz-radio-group formControlName="thueXeNgoaiTruong" class="d-flex justify-content-around" [nzDisabled]="true">
+            <label nz-radio [nzValue]="true">Có</label>
+            <label nz-radio [nzValue]="false">Không</label>
+          </nz-radio-group>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'thueXeNgoaiTruong')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+    </div>
+
+    <div nz-col nzOffset="1" nzSpan="11">
+
+
+      <!-- Giang vien dang ky -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].GIANG_VIEN_DANG_KY }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'giangVienDangKy')">
+          <nz-select nzShowSearch nzServerSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_GIANG_VIEN"
+            formControlName="giangVienDangKy" class="d-block" [nzDisabled]="true">
+            <nz-option *ngFor='let giangVien of listGiangVien' [nzLabel]="giangVien.hoTen" [nzValue]="giangVien.id">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'giangVienDangKy')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <!-- DotThamQuan -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].DOT_THAM_QUAN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'dotThamQuan')">
+          <nz-select nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_DOT_THAM_QUAN"
+            formControlName="dotThamQuan" class="d-block" [nzDisabled]="true">
+            <nz-option *ngFor="let dotThamQuan of listDotThamQuan.data" [nzLabel]="dotThamQuan?.tenDotThamQuan"
+              [nzValue]="dotThamQuan?.id">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'dotThamQuan')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <!-- Doanh nghiep -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].DOANH_NGHIEP }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'doanhNghiep')">
+          <nz-select nzShowSearch nzServerSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_DOANH_NGHIEP"
+            formControlName="doanhNghiep" class="d-block" [nzDisabled]="true">
+            <nz-option *ngFor='let option of listDoanhNghiep' [nzLabel]="option.congTy" [nzValue]="option.id">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'doanhNghiep')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+
+      <!-- PhuongTien -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].PHUONG_TIEN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'phuongTien')">
+          <nz-select nzMode="multiple" nzShowSearch nzAllowClear [nzPlaceHolder]="langData[langCode].CHON_PHUONG_TIEN"
+            formControlName="phuongTien" class="d-block" [nzDisabled]="true">
+            <nz-option *ngFor="let option of listPhuongTien" [nzLabel]="option.bienSo" [nzValue]="option.id">
+            </nz-option>
+          </nz-select>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'phuongTien')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+      <!-- Thoi gian khoi hanh -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].THOI_GIAN_KHOI_HANH }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thoiGianKhoiHanh')">
+          <nz-date-picker [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="dd-MM-yyyy HH:mm"
+            formControlName="thoiGianKhoiHanh" class="d-block" nzInputReadOnly [nzDisabled]="true">
+          </nz-date-picker>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'thoiGianKhoiHanh')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <!-- Thoi gian bat dau -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].THOI_GIAN_BAT_DAU_THAM_QUAN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thoiGianBatDauThamQuan')">
+          <nz-date-picker [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="dd-MM-yyyy HH:mm"
+            formControlName="thoiGianBatDauThamQuan" class="d-block" [nzDisabled]="true">
+          </nz-date-picker>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'thoiGianBatDauThamQuan')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+      <!-- Thoi gian ket thuc -->
+      <div nz-row class="pad-bot-form align-items-center">
+        <div nz-col nzSpan="24">
+          <label>{{ langData[langCode].THOI_GIAN_KET_THUC_THAM_QUAN }}</label><label class="field-required">*</label>
+        </div>
+        <div nz-col nzSpan="24" [ngClass]="displayFieldCss(form, 'thoiGianKetThucThamQuan')">
+          <nz-date-picker [nzShowTime]="{ nzFormat: 'HH:mm' }" nzFormat="dd-MM-yyyy HH:mm"
+            formControlName="thoiGianKetThucThamQuan" class="d-block" [nzDisabled]="true">
+          </nz-date-picker>
+        </div>
+        <div nz-col>
+          <app-field-error-display [displayError]="isFieldValid(form, 'thoiGianKetThucThamQuan')"
+            [errorMsg]="langData[langCode].KHONG_DUOC_DE_TRONG">
+          </app-field-error-display>
+        </div>
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+  <div nz-row class="ant-modal-footer fk-modal-footer">
+    <div nz-col nzSpan="24" class="ali-right">
+      <div class="pad-left-form-control" style="display: inline-block">
+        <button nz-button nzType="default" nzSize="default" type="button" class="nz-btn-red" (click)="onCancel()">
+          <i class="fas fa-times mr-right-5"></i>{{ langData[langCode].DONG }}
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</form>
